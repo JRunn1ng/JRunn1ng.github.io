@@ -93,8 +93,8 @@
 </ul>
 <p>总结一下就是找符合要求中的下标最小，尽管这样修正未必速度快，但是避免循环。<br>但是，循环情况是非常罕见的，采用这些避免措施会增加计算量，通常还是不要使用。</p>
 <hr>
-<h3 id="大M法"><a href="#大M法" class="headerlink" title="大M法"></a><strong>大M法</strong></h3><p>前面所讲的方法，都是基于直接能找到初始的可行基的情况。对于一般的(LP)，需要使用大M法确定初始的可行基。<br>\begin{equation}<br>min\,z_M=c^Tx+Me^Ty \\ s.t.\,Ax+y=b \\ x\geq\,0\,,\,y\geq\,0<br>\end{equation}<br>其中，$M$是一个充分大的正数，可以视为 $\frac{1}{\epsilon}$；向量$y$称为人工变量，$Me^Ty$称为惩罚项，目的是使人工变量为0。<br>如此一来就构造了$B=I$作为可行基，对应的基可行解为$\begin{pmatrix} x \\ y \\ \end{pmatrix}=\begin{pmatrix} 0 \\ b \\ \end{pmatrix}$，接下来就是使用原来的单纯形法进行求解。</p>
-<h4 id="大M法最优性条件"><a href="#大M法最优性条件" class="headerlink" title="大M法最优性条件"></a><strong>大M法最优性条件</strong></h4><p>当$x^<em>$是(LP)最优解时，$\begin{pmatrix} x^</em> \\ 0 \\ \end{pmatrix}$是大M的最优解；反之，若$\begin{pmatrix} x^<em> \\ y^</em> \\ \end{pmatrix}$是大M的最优解，则当$y^<em>=0$时，$x^</em>$是(LP)的最优解，否则(LP)无可行解。</p>
+<h3 id="大M法"><a href="#大M法" class="headerlink" title="大M法"></a><strong>大M法</strong></h3><p>前面所讲的方法，都是基于直接能找到初始的可行基的情况。对于一般的(LP)，需要使用大M法确定初始的可行基。<br>\begin{equation}<br>min\,z_M=c^Tx+Me^Ty \\ s.t.\,Ax+y=b \\ x\geq\,0\,,\,y\geq\,0<br>\end{equation}<br>其中，$M$是一个充分大的正数，可以视为 $\dfrac{1}{\epsilon}$；向量$y$称为人工变量，$Me^Ty$称为惩罚项，目的是使人工变量为0。<br>如此一来就构造了$B=I$作为可行基，对应的基可行解为$\begin{pmatrix} x \\ y \\ \end{pmatrix}=\begin{pmatrix} 0 \\ b \\ \end{pmatrix}$，接下来就是使用原来的单纯形法进行求解。</p>
+<h4 id="大M法最优性条件"><a href="#大M法最优性条件" class="headerlink" title="大M法最优性条件"></a><strong>大M法最优性条件</strong></h4><p>当$x^*$是(LP)最优解时，$\begin{pmatrix} x^* \\ 0 \\ \end{pmatrix}$是大M的最优解；反之，若$\begin{pmatrix} x^* \\ y^* \\ \end{pmatrix}$是大M的最优解，则当$y^*=0$时，$x^*$是(LP)的最优解，否则(LP)无可行解。</p>
 <h4 id="大M法无下届条件"><a href="#大M法无下届条件" class="headerlink" title="大M法无下届条件"></a><strong>大M法无下届条件</strong></h4><p>设大M问题无下届，最后对应的基可行解为$\begin{pmatrix} \hat{x} \\ \hat{y} \\ \end{pmatrix}$。若$\hat{y}=0$，则(LP)无下届，否则(LP)无解。</p>
 <hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>本节主要介绍了单纯形法，其目的是求得线性规划问题的最优解。首先将标准问题转化为典式，构造单纯形表，利用单纯形表判别该基可行解是否最优或者无下届，再进一步对单纯形表进行改进。在改进过程中若遇到循环现象，则可以使用bland规则避免。针对初始可行基无法确定的问题，可以通过大M法引入惩罚项来解决，使用单纯形法判断时使用相应的新规则。</p>
