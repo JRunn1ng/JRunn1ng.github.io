@@ -1,17 +1,35 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="."><title>【最优化】单纯形法（笔记六） | JRunning</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">【最优化】单纯形法（笔记六）</h1><a id="logo" href="/.">JRunning</a><p class="description">正因为是一张白纸，才可以随心所欲地描绘地图。</p></div><div id="nav-menu"><a href="/PART1/"><i class="fa fa-rss"> 按图索骥</i></a><a href="/PART2/"><i class="fa fa-rss"> 荒野寻踪</i></a><a href="/PART3/"><i class="fa fa-rss"> 缤纷生活</i></a><a href="/PART4/"><i class="fa fa-rss"> 缸中之脑</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">【最优化】单纯形法（笔记六）</h1><div class="post-meta">Apr 18, 2018<span> | </span><span class="category"><a href="/categories/数学/">数学</a></span></div><div class="post-content"><p>在线性规划基本定理中提到，如果(LP)存在解，则其一定最在基可行解；如果(LP)存在最优解，则其一定存在最优的基可行解。本节我们将针对（LP）问题，使用单纯形法求其基可行解，并通过判别找到其最优的基可行解。思维导图如下：<br><img src="/18/opt-6/mindpic.png" alt="思维导图"><br>首先我们用一张表格，罗列出在本章中可能用到的变量名称及含义：<br>变量符号 | 备注<br>:-: | :-:<br>$A=\begin{bmatrix} B &amp; N \end{bmatrix}$ | 约束条件<br>$x=\begin{bmatrix} x_B &amp; x_N \end{bmatrix}^T$ | 变量/基变量/非基变量<br>$x^0=\begin{bmatrix} x^0_B &amp; x^0_N \end{bmatrix}^T$ | 最优解<br>$c=\begin{bmatrix} c_B &amp; c_N \end{bmatrix}^T$ | 约束条件<br>$r^T=\begin{bmatrix} r^T_B &amp; r^T_N \end{bmatrix}$ | 检验数<br>$b$ | 约束条件（右端项）<br>$b^0$ | 右端项/最优解<br>$a^0_j=\begin{pmatrix} a^0_{1j},\ldots,a^0_{mj} \end{pmatrix}$ | 非基变量对应系数矩阵元素</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="."><title>【最优化】单纯形法（笔记六） | JRunning</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">【最优化】单纯形法（笔记六）</h1><a id="logo" href="/.">JRunning</a><p class="description">正因为是一张白纸，才可以随心所欲地描绘地图。</p></div><div id="nav-menu"><a href="/PART1/"><i class="fa fa-rss"> 按图索骥</i></a><a href="/PART2/"><i class="fa fa-rss"> 荒野寻踪</i></a><a href="/PART3/"><i class="fa fa-rss"> 缤纷生活</i></a><a href="/PART4/"><i class="fa fa-rss"> 缸中之脑</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">【最优化】单纯形法（笔记六）</h1><div class="post-meta">Apr 18, 2018<span> | </span><span class="category"><a href="/categories/数学/">数学</a></span></div><div class="post-content"><p>在线性规划基本定理中提到，如果(LP)存在解，则其一定最在基可行解；如果(LP)存在最优解，则其一定存在最优的基可行解。本节我们将针对（LP）问题，使用单纯形法求其基可行解，并通过判别找到其最优的基可行解。思维导图如下：<br><img src="/18/opt-6/mindpic.png" alt="思维导图"><br>首先我们用一张表格，罗列出在本章中可能用到的变量名称及含义：</p>
+<ul>
+<li>$A=\begin{bmatrix} B &amp; N \end{bmatrix}$ ：约束条件</li>
+<li>$x=\begin{bmatrix} x_B &amp; x_N \end{bmatrix}^T$ ：变量/基变量/非基变量</li>
+<li>$x^0=\begin{bmatrix} x^0_B &amp; x^0_N \end{bmatrix}^T$ ：最优解</li>
+<li>$c=\begin{bmatrix} c_B &amp; c_N \end{bmatrix}^T$ ：约束条件</li>
+<li>$r^T=\begin{bmatrix} r^T_B &amp; r^T_N \end{bmatrix}$ ：检验数</li>
+<li>$b$ ：约束条件（右端项）</li>
+<li>$b^0$ ：右端项/最优解</li>
+<li>$a^0_j=\begin{pmatrix} a^0_{1j},\ldots,a^0_{mj} \end{pmatrix}$ ：非基变量对应系数矩阵元素</li>
+</ul>
 <h3 id="典式"><a href="#典式" class="headerlink" title="典式"></a><strong>典式</strong></h3><p>回顾，标准形式线性规划问题（LP）形式如下：<br>\begin{equation}<br>min\,z=c^Tx \ s.t.\,Ax=b \ x\geq\,0<br>\end{equation}<br>$Ax=b$可以转化为$x_B+B^{-1}Nx_N=B^{-1}b$，也就是将基变量$x_B$用非基变量$x_N$、以及$B,N,b$表示。<br>因此目标函数中的$x$可以转换为基变量与非基变量，从而再转换为非基变量与约束条件来表示。如此一来，基变量的系数矩阵就成了单位阵。</p>
 <h4 id="典式矩阵形式"><a href="#典式矩阵形式" class="headerlink" title="典式矩阵形式"></a><strong>典式矩阵形式</strong></h4><p>\begin{equation}<br>min\,z=c^T_BB^{-1}b-(c^T_BB^{-1}N-c^T_N)x_n \ s.t.\,x_B+B^{-1}Nx_N=B^{-1}b \ x_B\geq\,0\,,\,x_N\geq\,0<br>\end{equation}</p>
 <h4 id="典式的两个特点："><a href="#典式的两个特点：" class="headerlink" title="典式的两个特点："></a><strong>典式的两个特点</strong>：</h4><ol>
 <li>目标函数非基变量表示。（通过约束条件实现）</li>
-<li>第i个基变量对应的系数列向量为第i个单位向量。（因为转化后的约束条件含有$x_B$项）<h4 id="典式具体形式："><a href="#典式具体形式：" class="headerlink" title="典式具体形式："></a><strong>典式具体形式</strong>：</h4>\begin{equation}<br>min\,z=z_0-\sum_{j\in{I_N}}^{} {r_jx_j} \ s.t.\,x_{B_i}+\sum_{j\in{I_N}}^{} {a^0_{ij}x_j}=b^0_i\,,\,i=1,\ldots,m\x_{B_i}\geq\,0,i=1,\ldots,m\x_j\geq\,0,j\in{I_N}<br>\end{equation}<br>典式的具体形式只是作了一些变量的代换而已，但是其意义也更直观。<h3 id="单纯形表"><a href="#单纯形表" class="headerlink" title="单纯形表"></a><strong>单纯形表</strong></h3><h4 id="检验数"><a href="#检验数" class="headerlink" title="检验数"></a><strong>检验数</strong></h4>在典式的具体形式中，涉及到了$r$，我们称之为检验数。$r$的计算公式为<br>\begin{equation}<br>r^T=(r^T_B\,r^T_N)=c^T_BB^{-1}A-c^T<br>\end{equation}<br>之所以称之为检验数，是因为我们后面很多判别条件都是通过它来『检验』的。基变量对应的检验数为0。<h4 id="单纯形表构造"><a href="#单纯形表构造" class="headerlink" title="单纯形表构造"></a><strong>单纯形表构造</strong></h4>[图片2]<br>单纯形表，也记作$T(B)$。<br><strong>步骤总结：</strong></li>
+<li>第i个基变量对应的系数列向量为第i个单位向量。（因为转化后的约束条件含有$x_B$项）</li>
+</ol>
+<h4 id="典式具体形式："><a href="#典式具体形式：" class="headerlink" title="典式具体形式："></a><strong>典式具体形式</strong>：</h4><p>\begin{equation}<br>min\,z=z_0-\sum_{j\in{I_N}}^{} {r_jx_j} \ s.t.\,x_{B_i}+\sum_{j\in{I_N}}^{} {a^0_{ij}x_j}=b^0_i\,,\,i=1,\ldots,m\x_{B_i}\geq\,0,i=1,\ldots,m\x_j\geq\,0,j\in{I_N}<br>\end{equation}<br>典式的具体形式只是作了一些变量的代换而已，但是其意义也更直观。</p>
+<h3 id="单纯形表"><a href="#单纯形表" class="headerlink" title="单纯形表"></a><strong>单纯形表</strong></h3><h4 id="检验数"><a href="#检验数" class="headerlink" title="检验数"></a><strong>检验数</strong></h4><p>在典式的具体形式中，涉及到了$r$，我们称之为检验数。$r$的计算公式为<br>\begin{equation}<br>r^T=(r^T_B\,r^T_N)=c^T_BB^{-1}A-c^T<br>\end{equation}<br>之所以称之为检验数，是因为我们后面很多判别条件都是通过它来『检验』的。基变量对应的检验数为0。</p>
+<h4 id="单纯形表构造"><a href="#单纯形表构造" class="headerlink" title="单纯形表构造"></a><strong>单纯形表构造</strong></h4><p>[图片2]<br>单纯形表，也记作$T(B)$。</p>
+<p><strong>步骤总结：</strong></p>
+<ol>
 <li>写出基$B$（要求满秩），得到$N$；</li>
 <li>在表格中先列好$C^T_B$与$C^T_N$；</li>
 <li>求$B^{-1}$；</li>
 <li>求$B^{-1}N$，填入相应位置；</li>
 <li>求$b^0=B^{-1}b$，填入相应位置；</li>
 <li>求$z^0=c^T_Bb_0$，填入相应位置；</li>
-<li>求$r^T_N=c^T_Bb_0-C^T_N$，填入相应位置。<h4 id="最优性条件"><a href="#最优性条件" class="headerlink" title="最优性条件"></a><strong>最优性条件</strong></h4>设$B$是$S$的可行基。若在单纯形表$T(B)$中关于$B$的检验向量$r_N\geq\,0$，则关于$B$的基可行解 $x^0$即是(LP)的最优解，$z^0$是(LP)的最优值。<h4 id="无下届条件"><a href="#无下届条件" class="headerlink" title="无下届条件"></a><strong>无下届条件</strong></h4>设$B$是$S$的可行基。若存在$k\in{I_N}$使$r_k&gt;\,0$，并且$a^0_k=B^{-1}a_k\geq\,0$，则(LP)无下界。</li>
+<li>求$r^T_N=c^T_Bb_0-C^T_N$，填入相应位置。</li>
 </ol>
+<h4 id="最优性条件"><a href="#最优性条件" class="headerlink" title="最优性条件"></a><strong>最优性条件</strong></h4><p>设$B$是$S$的可行基。若在单纯形表$T(B)$中关于$B$的检验向量$r_N\geq\,0$，则关于$B$的基可行解 $x^0$即是(LP)的最优解，$z^0$是(LP)的最优值。</p>
+<h4 id="无下届条件"><a href="#无下届条件" class="headerlink" title="无下届条件"></a><strong>无下届条件</strong></h4><p>设$B$是$S$的可行基。若存在$k\in{I_N}$使$r_k&gt;\,0$，并且$a^0_k=B^{-1}a_k\geq\,0$，则(LP)无下界。</p>
 <ul>
 <li><strong>阶段性归纳理解：</strong><br>构造好单纯形表后，首先要判断该解是否已经是最优解，若不是，看看是否是无下届情况，若也不是，则需要通过改进单纯形表来求取最优解。</li>
 </ul>
@@ -21,8 +39,9 @@
 <li>根据最优性条件判别是否已经是最优解，或是否是无下届情况；</li>
 <li>确定进基出基变量：<br>&emsp;&emsp;进基变量：取$k\in I_N$，使$r_k=\max{r_j| j \in I_N}$；<br>&emsp;&emsp;出基变量：取$r\in {1,\ldots,m}$，使$\frac{b^0_i}{a^0_{ik}}=\min_{1\geq i \geq m}{\frac{b^0_i}{a^0_{ik}} | {a^0_{ik}}&gt;0}$;</li>
 <li>对单纯形表进行初等变换，使得出基列检验数为0，对应系数向量为相应单位向量；</li>
-<li>交换进基出基变量的名称。<h3 id="循环现象"><a href="#循环现象" class="headerlink" title="循环现象"></a><strong>循环现象</strong></h3>在退化情形下的，即$b^0=B^{-1}b$存在$0$分量，改进单纯形表的时候可能会出现循环的现象，无法求得最优解。<br>避免循环的方法有：</li>
+<li>交换进基出基变量的名称。</li>
 </ul>
+<h3 id="循环现象"><a href="#循环现象" class="headerlink" title="循环现象"></a><strong>循环现象</strong></h3><p>在退化情形下的，即$b^0=B^{-1}b$存在$0$分量，改进单纯形表的时候可能会出现循环的现象，无法求得最优解。<br>避免循环的方法有：</p>
 <ul>
 <li>摄动法</li>
 <li>字典序法</li>
