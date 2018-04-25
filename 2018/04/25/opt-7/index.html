@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="."><title>【最优化】对偶理论（笔记七） | JRunning</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">【最优化】对偶理论（笔记七）</h1><a id="logo" href="/.">JRunning</a><p class="description">正因为是一张白纸，才可以随心所欲地描绘地图。</p></div><div id="nav-menu"><a href="/PART1/"><i class="fa fa-rss"> 按图索骥</i></a><a href="/PART2/"><i class="fa fa-rss"> 荒野寻踪</i></a><a href="/PART3/"><i class="fa fa-rss"> 缤纷生活</i></a><a href="/PART4/"><i class="fa fa-rss"> 缸中之脑</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">【最优化】对偶理论（笔记七）</h1><div class="post-meta">Apr 25, 2018<span> | </span><span class="category"><a href="/categories/数学/">数学</a></span></div><div class="post-content"><p>本节主要介绍了线性规划中的对偶理论。任何一个线性规划问题都伴随一个对偶问题，对偶问题具有非常重要的性质，利用它可以有效地获得原问题的解。本节内容思维导图如下：</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/6fgwtbbv7gcypzgz1g8b85y8/%E5%AF%B9%E5%81%B6%E7%90%86%E8%AE%BA.png" alt="思维导图"></p>
+<h3 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a><strong>对偶问题</strong></h3><h4 id="对偶问题定义"><a href="#对偶问题定义" class="headerlink" title="对偶问题定义"></a><strong>对偶问题定义</strong></h4><p>对于线性规划问题$(LP)$：<br>\begin{equation}<br>min\,c^Tx \\ s.t.\,Ax= b \\ x\geq\,0<br>\end{equation}<br>其等价于：<br>\begin{equation}<br>min\,c^Tx \\ s.t.\,Ax\geq b \\ \,\,\,\,\,\,\,\,\,-Ax\geq -b \\ x\geq\,0<br>\end{equation}<br>其对偶问题为：<br>\begin{equation}<br>max b^Tw^1-b^Tw^2\\s.t.\,A^Tw^1-A^Tw^2 \leq\,c\\w^1,w^2\geq\,0<br>\end{equation}<br>进一步，令$w=w^1-w^2$，简化为$(DLP)$：<br>\begin{equation}<br>max\,b^Tw \\ s.t.\,A^Tw\,\leq\,c<br>\end{equation}</p>
+<p>对于一般的线性规划问题$(GLP)$：<br>\begin{equation}<br>min\,c_1^Tx_1+c_2^Tx_2 \\ s.t.\, A_{11}x_1+A_{12}x_2=b_1 \\  \,\,\,\,\,\,\,\,\,\,\,\,\,A_{21}x_1+A_{22}x_2\geq b_2 \\x_1\geq\,0<br>\end{equation}<br>其对偶问题$(DGLP)$为：<br>\begin{equation}<br>max\,b_1^Tw_1+b_2^Tw_2 \\ s.t.\, A_{11}^Tw_1+A_{12}^Tw_2\leq\,c_1 \\  \,\,\,\,\,\,\,\,\,\,\,\,\,A_{21}^Tw_1+A_{22}^Tw_2= c_2 \\w_2\geq\,0<br>\end{equation}</p>
+<h4 id="构造规律"><a href="#构造规律" class="headerlink" title="构造规律"></a><strong>构造规律</strong></h4><p>通过定义可以发现，其实对偶问题的建立是很难用数学语言去描述清楚的，因此归纳得到了一个规律表格：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">原问题min</th>
+<th style="text-align:center">对偶问题max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">目标函数系数</td>
+<td style="text-align:center">右端系数</td>
+</tr>
+<tr>
+<td style="text-align:center">右端系数</td>
+<td style="text-align:center">目标函数系数</td>
+</tr>
+<tr>
+<td style="text-align:center">约束矩阵$A$</td>
+<td style="text-align:center">系数矩阵转置$A^T$</td>
+</tr>
+<tr>
+<td style="text-align:center">第$i$个约束为$\geq$型</td>
+<td style="text-align:center">第$i$个变量$\geq0$</td>
+</tr>
+<tr>
+<td style="text-align:center">第$i$个约束为$=$型</td>
+<td style="text-align:center">第$i$个变量为自由变量</td>
+</tr>
+<tr>
+<td style="text-align:center">第$j$个变量$\geq0$</td>
+<td style="text-align:center">第$j$个约束为$\leq$型</td>
+</tr>
+<tr>
+<td style="text-align:center">第$j$个变量为自由变量</td>
+<td style="text-align:center">第$j$个约束为$=$型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>具体构造对偶问题时，我梳理了以下方法步骤：</p>
+<ol>
+<li>先将原问题的约束条件转化为$\geq$型或$=$型，变量条件转化为$\geq$型或保持自由变量。</li>
+<li>将目标函数与右端系数交换位置写好，看原问题有几个约束条件，得到对偶问题变量个数。</li>
+<li>$max$转$min$，$min$转$max$。</li>
+<li>系数矩阵转置写好，并根据变量将约束条件左边补齐。</li>
+<li>根据原问题变量类型，确定对偶问题约束条件类型。</li>
+<li>根据原问题约束条件类型，确定对偶问题变量类型。</li>
+</ol>
+<h4 id="对偶间隙"><a href="#对偶间隙" class="headerlink" title="对偶间隙"></a><strong>对偶间隙</strong></h4><p>若$(x_1,x_2)$是$(GLP)$的可行(最优)解，若$(w_1,w_2)$是$(DGLP)$的可行(最优)解，则称$(x_1,x_2,w_1,w_2)$是$(GLP)$与$(DGLP)$的可行(最优)对，并称$\theta(x_1,x_2,w_1,w_2)=(c_1^Tx_1+c_2^Tx_2)-(b_1^Tw_1+b_2^Tw_2)$是该可行(最优)对的<strong>对偶间隙</strong>。</p>
+<p>对于$(GLP)$与$(DGLP)$，利用$A_{11}x_1+A_{12}x_2=b_1$以及$A_{21}^Tw_1+A_{22}^Tw_2= c_2$，得到：</p>
+<script type="math/tex; mode=display">\theta(x_1,x_2,w_1,w_2)=(A_{21}x_1+A_{22}x_2-b_2)^Tw_2+(c_1-A^T_{11}-A_{21}^Tw_2)^Tx_1</script><p><code>思考</code> 对偶间隙就是$min$问题的目标值减去$max$问题的目标值，是为“间隙”。</p>
+<h3 id="对偶定理"><a href="#对偶定理" class="headerlink" title="对偶定理"></a><strong>对偶定理</strong></h3><p>原问题与其对偶问题之间，存在以下性质：对称性、对偶性、互补性。</p>
+<h4 id="对称性"><a href="#对称性" class="headerlink" title="对称性"></a><strong>对称性</strong></h4><p>若$(GLP)$是原问题，$(DGLP)$是对偶问题；则当$(DGLP)$是原问题时，</p>
+<h4 id="弱对偶性"><a href="#弱对偶性" class="headerlink" title="弱对偶性"></a><strong>弱对偶性</strong></h4><p>设$(x_1,x_2,w_1,w_2)$是$(GLP)$与$(DGLP)$的可行对，则$\theta(x_1,x_2,w_1,w_2)\geq\,0$，即</p>
+<script type="math/tex; mode=display">c_1^Tx_1+c_2^Tx_2\geq\,b_1^Tw_1+b_2^Tw_2</script><p><code>推论</code> 若$c_1^T\hat{x_1}+c_2^T\hat{x_2}=\,b_1^T\hat{w_1}+b_2^T\hat{w_2}$，即$\theta(\hat{x_1},\hat{x_2},\hat{w_1},\hat{w_2})=\,0$，则$(\hat{x_1},\hat{x_2},\hat{w_1},\hat{w_2})$是$(GLP)$与$(DGLP)$的最优对，并且$(GLP)$与$(DGLP)$的最优值相等。</p>
+<p><code>推论</code> 若$(GLP)$无下界，则$(DGLP)$无可行解；若$(DGLP)$无上界，则$(GLP)$无可行解。</p>
+<p><code>推论</code> 若$(GLP)$与$(DGLP)$均存在可行解，则它们一定均存在最优解。</p>
+<h4 id="强对偶性"><a href="#强对偶性" class="headerlink" title="强对偶性"></a><strong>强对偶性</strong></h4><p>设$(GLP)$存在最优解，则$(DGLP)$也存在最优解，且它们的最优值相等。</p>
+<p><code>推论</code> 设$(LP)$系数矩阵$A$中含有单位矩阵$(a_{t_1},\ldots,a_{t_m})=I_m$，则</p>
+<script type="math/tex; mode=display">\hat{w}=(c_{t_1}+r_{t_1},\ldots,c_{t_m}+r_{t_m})^T</script><p>是$(DLP)$的最优解，其中$r$是单纯形表的检验数。</p>
+<h4 id="互补松弛性"><a href="#互补松弛性" class="headerlink" title="互补松弛性"></a><strong>互补松弛性</strong></h4><p>设$\theta(\hat{x_1},\hat{x_2},\hat{w_1},\hat{w_2})$是$(GLP)$与$(DGLP)$的可行对，则其是最优对的充要条件是满足以下互补条件：</p>
+<script type="math/tex; mode=display">(A_{21}\hat{x_1}+A_{22}\hat{x_2}-b_2)_i\hat{w}_{2i}=0,\forall\,i\\\hat{x}_{1j}(c_1-A^T_{11}\hat{w}_1-A^T_{21}\hat{w}_2)_j=0,\forall\,j</script><p><code>思考</code> 因为乘积项都非负，所以当某项大于0时（松），与之相乘的项必定等于0（紧）。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/04/24/髂胫束损伤防治指南/">髂胫束损伤防治指南</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="jrunning.cn"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/旅游/">旅游</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/跑步/">跑步</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/25/opt-7/">【最优化】对偶理论（笔记七）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/24/髂胫束损伤防治指南/">髂胫束损伤防治指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/23/四月跑马下扬州/">四月跑马下扬州</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/18/opt-6/">【最优化】单纯形法（笔记六）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/15/20180415-人人网状态摘录(2011-2014)/">人人网状态摘录<2011-2014></a></li><li class="post-list-item"><a class="post-list-link" href="/2014/02/23/20140223-再谦虚一点/">再谦虚一点</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/10/19/20131019-二十岁有人跟我一起疯狂/">二十岁有人跟我一起疯狂</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/09/13/20130913-静心知路/">静心知路</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/28/20130828-总有些不经意的话可以概括那些年华/">总有些不经意的话可以概括那些年华</a></li><li class="post-list-item"><a class="post-list-link" href="/2013/08/15/20130815-短跑决赛/">短跑决赛</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 - <a href="/." rel="nofollow">JRunning</a></br>由<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo </a>驱动
+| 主题 -<a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Maupassant </a><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>| 访问量 <span id="busuanzi_value_site_pv"></span> 次</div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
