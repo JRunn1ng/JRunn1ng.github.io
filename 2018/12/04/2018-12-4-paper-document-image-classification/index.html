@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/gf1u2k9bu3qiqiir2diti6gy/image_1ctsso90obrnlq115rbqfrlc29.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/ud9lutv3m5bg3r0lbzahex9m/image_1ctssqjobjo01tf518kedooq89m.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/au6zi959ymd1cr8rx81me2k6/image_1ctst31oi1urf1npo1hd91a3k15l623.png">
-<meta property="og:updated_time" content="2018-12-04T15:51:04.668Z">
+<meta property="og:updated_time" content="2018-12-05T01:20:31.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论文笔记 | 专利图像分类（一）">
 <meta name="twitter:description" content="文档图像分类，聚焦专利图像应用 Csurka G. Document image classification, with a specific view on applications of patent images[M]//Current Challenges in Patent Information Retrieval. Springer, Berlin, Heidelberg, 201">
@@ -365,8 +365,8 @@
 <h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p>专利图像很重要，但是不是每一张图片都一样重要。包含化学结构式、基因序列、电路等的图片，是最重要的。如果一次相似检索中，检出来的都是流程图或者表格，那么并不会给使用者带来多少帮助。如果只有一种类型的图像（drawing）被检索，那么相比于检索所有类型的图像，检索的准确率就有极高的提升。然而，这需要提前就确定图像的类别。人工标注图像的类别的工作，既不存在前人的工作，自己搞又容易出错。因此，我们需要自动地预测图像的类别。除此以外，本文还探索了相似图像检索的相关工作。</p>
 <h3 id="★-文档图像表示"><a href="#★-文档图像表示" class="headerlink" title="★ 文档图像表示"></a><strong>★ 文档图像表示</strong></h3><p>现有若干方法只包含了相对有限的信息，它们可能针对某个特定的数据集表现好，但是不能很好地应对所有的类别、数据集以及任务。相对最早的自然图像表示（比如颜色直方图），bag-of-visual words (BOV) 表现地比它要很好很多，Fisher vector是最成功的BOV图像表示的一种；而本文的另一种方法run-length histograms也有更一般的普适性。</p>
 <h4 id="☆-游程直方图（Run-length-histograms）"><a href="#☆-游程直方图（Run-length-histograms）" class="headerlink" title="☆ 游程直方图（Run-length histograms）"></a><strong>☆ 游程直方图（Run-length histograms）</strong></h4><p>主要思想是去编码同一方向上具有相同值像素的序列，对于文档中的图像而言，由于通常是黑白的，所以只需要两个通道即可。对于灰度图片，我们首先对其二值化，然后仅考虑黑白。对于彩色图片，我们可以将亮度信息二值化。二值化有许多方法，最简单的比如直接设定0.5的阈值，还有许多复杂的方法，还有探讨二值化的世界比赛：<a href="https://vc.ee.duth.gr/dibco2017/" target="_blank" rel="noopener">DIBCO</a>/<a href="http://vc.ee.duth.gr/h-dibco2018/" target="_blank" rel="noopener">HDIBCO</a>。</p>
-<p>游程直方图可以将图像表示为 $4×2×Q$的特征矩阵，其中$【4】$表示4个方向：水平、竖直、对角线、反对角线，其中$【2】$表示黑与白两个通道，其中$【Q】$表示通道长度，一般取$Q=[\log_2(m)+2]$，$m$表示像素的数量，中括号表示取整。</p>
-<p>举例，如果是一个$3×3$的矩阵（黑色$1$，白色$0$）：<script type="math/tex">\begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 1 \\ 1 & 1 & 0 \\ \end{bmatrix}</script>以水平为例，第一行尾巴连接到第二行的头形成一维序列，由一个黑游程，紧跟一个白游程，组成游程对，最后形成游程对序列。其中，黑色写在前面，白色写在后面。</p>
+<p>游程直方图可以将图像表示为 $(4×2×Q)$的特征矩阵，其中$(4)$表示4个方向：水平、竖直、对角线、反对角线，其中$(2)$表示黑与白两个通道，其中$(Q)$表示通道长度，一般取$Q=[\log_2(m)+2]$，$m$表示像素的数量，中括号表示取整。</p>
+<p>举例，如果是一个$(3×3)$的矩阵（黑色$1$，白色$0$）：<script type="math/tex">\begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 1 \\ 1 & 1 & 0 \\ \end{bmatrix}</script>以水平为例，第一行尾巴连接到第二行的头形成一维序列，由一个黑游程，紧跟一个白游程，组成游程对，最后形成游程对序列。其中，黑色写在前面，白色写在后面。</p>
 <ul>
 <li>水平方向游程对序列：$<1,4><3,1>$</3,1></1,4></li>
 <li>竖直方向游程对序列：$<1,1><1,2><1,1><1,1>$</1,1></1,1></1,2></1,1></li>
@@ -375,10 +375,10 @@
 </ul>
 <p>根据公式：$Q=[\log_2(9)+2]=5$</p>
 <ul>
-<li>水平方向RL矩阵 $ =\begin{bmatrix} 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \ 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0  \ \end{bmatrix} $</li>
-<li>竖直方向RL矩阵 $ =\begin{bmatrix} 4 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \ 3 &amp; 1 &amp; 0 &amp; 0 &amp; 0  \ \end{bmatrix} $</li>
-<li>对角方向RL矩阵 $ =\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0  \ \end{bmatrix} $</li>
-<li>反对方向RL矩阵 $ =\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0  \ \end{bmatrix} $</li>
+<li>水平方向RL矩阵 <script type="math/tex">=\begin{bmatrix} 1 & 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 1 & 0  \\ \end{bmatrix}</script></li>
+<li>竖直方向RL矩阵 <script type="math/tex">=\begin{bmatrix} 4 & 0 & 0 & 0 & 0 \\ 3 & 1 & 0 & 0 & 0  \\ \end{bmatrix}</script></li>
+<li>对角方向RL矩阵 <script type="math/tex">=\begin{bmatrix} 1 & 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 & 0  \\ \end{bmatrix}</script></li>
+<li>反对方向RL矩阵 <script type="math/tex">=\begin{bmatrix} 1 & 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 & 0  \\ \end{bmatrix}</script></li>
 </ul>
 <p>此外，为了更好地挖掘图像中的布局信息，还有一种金字塔的方法，如下图所示。将图像按照这样去分割，形成$(1×1)(2×2)(4×4)$三种分割方法，一共得到21个区域。可以合并21个区域的表示，作为最终的图像特征的表示。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/7sdder7ydutgw5yurx3wm63y/image_1ctsrbvgqse3nlj1ghmka11parp.png" alt="image_1ctsrbvgqse3nlj1ghmka11parp.png-128.3kB"></p>
@@ -395,11 +395,11 @@
 <p>重点关注CLEF-IP数据集，它是一个专利图像分类任务的数据集，它用于2011年的比赛。这个比赛将专利中的图片分类到预先定义好的类别中去，一共包括9个类别（abstract drawing, graph, flowchart, gene sequence, program listing, symbol, chemical structure, table and mathematics）。数据集中每一类共包含了300-6000不等数量的标记图像，一共38081张。图像的分辨率从1500像素到4.5M像素不等。</p>
 <h3 id="★-实验设置与评估方法"><a href="#★-实验设置与评估方法" class="headerlink" title="★ 实验设置与评估方法"></a><strong>★ 实验设置与评估方法</strong></h3><p>主要目的是选出好的图像表示方法，以及为这个方法选择好的参数，而参数的选择可能是依赖于任务本身的。在检索任务中，使用了不同的分类器（SVM,KNN,NCM），观察不同参数下实验结果。相对SVM与KNN，NCM自身没什么参数要设置。</p>
 <h3 id="★-实验结果"><a href="#★-实验结果" class="headerlink" title="★ 实验结果"></a><strong>★ 实验结果</strong></h3><h4 id="☆-RL"><a href="#☆-RL" class="headerlink" title="☆ RL"></a><strong>☆ RL</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/6h6b8k571fic4pwv1tjpjy0i/image_1ctsshmgl5mqrmr12j219o8ofg4g.png" alt="image_1ctsshmgl5mqrmr12j219o8ofg4g.png-334.2kB"></p>
-<p>S表示不同的分辨率，L表示金字塔的层数（1×1，2×2，4×4），Q表示量子化间隔（RL矩阵里那个参数）。<br><strong>结论：</strong>对于量子化间隔，最好是11；金字塔层数，针对MARG和NIT最好是4或5，而针对其他数据集，就不定；针对图片尺寸，最佳参数也不定，但是S0多一些，即不使用金字塔。针对检索任务，KNN表现最好（k=1时）而MAP表现最差。针对分类任务，SVM在CLEF-IP上表现更好，这是由于这个数据集更大，更容易让SVM学习。</p>
+<p>S表示不同的分辨率，L表示金字塔的层数（1×1/2×2/4×4），Q表示量子化间隔（RL矩阵里那个参数）。<br><strong>结论：</strong>对于量子化间隔，最好是11；金字塔层数，针对MARG和NIT最好是4或5，而针对其他数据集，就不定；针对图片尺寸，最佳参数也不定，但是S0多一些，即不使用金字塔。针对检索任务，KNN表现最好（k=1时）而MAP表现最差。针对分类任务，SVM在CLEF-IP上表现更好，这是由于这个数据集更大，更容易让SVM学习。</p>
 <h4 id="☆-FV"><a href="#☆-FV" class="headerlink" title="☆ FV"></a><strong>☆ FV</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/2xbx1l59nu2oiud3kzsvq1i4/image_1ctssjttqotu1tpu14k21gv01m7r5t.png" alt="image_1ctssjttqotu1tpu14k21gv01m7r5t.png-351.9kB"></p>
-<p>W表示SIFT描述符的尺寸（24,32,48,64）；F表示降维所至的维数（48,64,96）；G表示高斯混合模型中词的数量。<br><strong>结论：</strong>针对特征尺寸，降维搭到48维最合适；极端地选择G可能会导致最好或最坏的结果，可能折中是比较好的选择；针对SIFT的尺寸，W3通常取得最好效果。</p>
+<p>W表示SIFT描述符的尺寸（24/32/48/64）；F表示降维所至的维数（48,64,96）；G表示高斯混合模型中词的数量。<br><strong>结论：</strong>针对特征尺寸，降维搭到48维最合适；极端地选择G可能会导致最好或最坏的结果，可能折中是比较好的选择；针对SIFT的尺寸，W3通常取得最好效果。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/smtozak88vxloitc2zwk35ul/image_1ctssleu31ndnn651tt4183at0q6n.png" alt="image_1ctssleu31ndnn651tt4183at0q6n.png-343kB"></p>
-<p>S表示图片尺寸（50K,100K,250K,500K）；M表示特征尺寸以根号2缩放了几次；G的含义不变。<br><strong>结论：</strong>针对图片尺寸，高分辨率更好一些，如S4；针对特征尺寸的缩放次数，不定。</p>
+<p>S表示图片尺寸（50K/100K/250K/500K）；M表示特征尺寸以根号2缩放了几次；G的含义不变。<br><strong>结论：</strong>针对图片尺寸，高分辨率更好一些，如S4；针对特征尺寸的缩放次数，不定。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/t3p2iyl07ry3hefadel0h7dz/image_1ctssmn601ua1p8i17ie1etvm0c7h.png" alt="image_1ctssmn601ua1p8i17ie1etvm0c7h.png-177.7kB"></p>
 <p>针对FV使用金字塔方法继续试验，L表示金字塔的层数，可以看到不同的分类器对于不同L的选择表现不同。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/gf1u2k9bu3qiqiir2diti6gy/image_1ctsso90obrnlq115rbqfrlc29.png" alt="image_1ctsso90obrnlq115rbqfrlc29.png-181.6kB"></p>
