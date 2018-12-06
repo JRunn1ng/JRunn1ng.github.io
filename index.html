@@ -348,11 +348,12 @@
           
             <h2 id="CLEF-IP-2011竞赛：知识产权领域的检索"><a href="#CLEF-IP-2011竞赛：知识产权领域的检索" class="headerlink" title="CLEF-IP 2011竞赛：知识产权领域的检索"></a><strong>CLEF-IP 2011竞赛：知识产权领域的检索</strong></h2><blockquote>
 <p>Piroi F, Lupu M, Hanbury A, et al. <strong>CLEF-IP 2011: Retrieval in the Intellectual Property Domain</strong>[C]//CLEF (notebook papers/labs/workshop). 2011.</p>
+<p>竞赛主页：<a href="http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml" target="_blank" rel="noopener">http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml</a></p>
 </blockquote>
-<h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p><strong><a href="https://en.wikipedia.org/wiki/Prior_art" target="_blank" rel="noopener">Prior Art</a></strong>，在中文中可以翻译为已有技术。在知识产权领域，一项专利在授权前，都要经过审查员的严格检索，确保没有先前的相似实例公开，这种检索叫<strong>Prior Art Search</strong>。维基百科中，<strong>Prior Art</strong>又称<strong>state of the art(SOTA)</strong>或<strong>background art</strong>，<strong>SOTA</strong>我们就比较熟悉了，经常用于表示研究中目前达到的最好性能。</p>
-<p><a href="http://www.ifs.tuwien.ac.at/~clef-ip/download-central.shtml" target="_blank" rel="noopener">CLEF-IP</a>比赛与<a href="https://trec.nist.gov/tracks.html" target="_blank" rel="noopener">TREC</a>比赛，都是由作者所在机构举办的。（<a href="http://blog.sciencenet.cn/blog-1497049-1086605.html" target="_blank" rel="noopener">马舒天：2017TREC文本检索会议参会感想</a>）CLEF比赛是从2009年开始的，聚焦专利检索，为研究者提供了大量的干净数据，数据集包括欧洲专利局的专利，语言涵盖英语、德语、法语。2009年的竞赛中，主要是针对已有技术检索；2010年，数据集进一步扩大，并且增加了专利分类的任务，目标是将专利自动地分配到正确的IPC类别中；<strong>2011年，增加了关于专利图像的任务，利用专利图像进行已有技术检索与分类</strong>。</p>
+<h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p><a href="http://www.ifs.tuwien.ac.at/~clef-ip/download-central.shtml" target="_blank" rel="noopener">CLEF-IP</a>比赛与<a href="https://trec.nist.gov/tracks.html" target="_blank" rel="noopener">TREC</a>比赛，都是由作者所在机构举办的。（<a href="http://blog.sciencenet.cn/blog-1497049-1086605.html" target="_blank" rel="noopener">马舒天：2017TREC文本检索会议参会感想</a>）CLEF比赛是从2009年开始的，聚焦专利检索，为研究者提供了大量的干净数据，数据集包括欧洲专利局的专利，语言涵盖英语、德语、法语。2009年的竞赛中，主要是针对Prior Art；2010年，数据集进一步扩大，并且增加了专利分类的任务，目标是将专利自动地分配到正确的IPC类别中；<strong>2011年，增加了关于专利图像的任务，利用专利图像进行已有技术检索与分类</strong>。</p>
+<p><a href="https://en.wikipedia.org/wiki/Prior_art" target="_blank" rel="noopener"><strong>Prior Art</strong></a>，在中文中可以翻译为已有技术。在知识产权领域，一项专利在授权前，都要经过审查员的严格检索，确保没有先前的相似实例公开，这种检索叫Prior Art Search。维基百科中，Prior Art又称state of the art(SOTA)或background art，SOTA我们就比较熟悉了，经常用于表示研究中目前达到的最好性能。</p>
 <p>专利中的图像包括人手绘制的、电脑绘制的，或是两者混合。可能包括了文本，通常是黑白的。当专利专家在浏览一系列检索结果时，他可以根据图像快速地过滤掉许多不相关的专利，需要精读的专利数量就会得到大幅度的减少。</p>
-<h3 id="★-相关数据收集"><a href="#★-相关数据收集" class="headerlink" title="★ 相关数据收集"></a><strong>★ 相关数据收集</strong></h3><p>专利的文档都是以XML文件的格式存储的，这个文档可能是：Application Document（申请文档），Search Report（搜索报告）或Granted Patent Document（授权文档）。分别用A1，A3，B1前缀加以区分。CLEF的专利文档XML数据，都是从<strong><a href="http://www.ifs.tuwien.ac.at/imp/marec.shtml" target="_blank" rel="noopener">MAREC数据库</a></strong>中摘取的，该数据库包含有19,386,697个专利文档，都是以XML格式存储的，总大小达到了621GB（现在好像无法下载了）。XML文件通常包含的文本信息有：著录资料，摘要，描述，权利要求。</p>
+<h3 id="★-相关数据收集"><a href="#★-相关数据收集" class="headerlink" title="★ 相关数据收集"></a><strong>★ 相关数据收集</strong></h3><p>专利的文档都是以XML文件的格式存储的，这个文档可能是：Application Document（申请文档），Search Report（搜索报告）或Granted Patent Document（授权文档）。分别用A1，A3，B1前缀加以区分。CLEF的专利文档XML数据，都是从<a href="http://www.ifs.tuwien.ac.at/imp/marec.shtml" target="_blank" rel="noopener">MAREC数据库</a>中摘取的，该数据库包含有19,386,697个专利文档，都是以XML格式存储的，总大小达到了621GB（现在好像无法下载了）。XML文件通常包含的文本信息有：著录资料，摘要，描述，权利要求。</p>
 <p>专利文档方面，共有350万左右XML文件。图像方面，针对其中三个IPC子类的所有47000个专利（截止到2002年），截取图像共291,566个tiff格式的文件，共5.4GB。下面两张表是选择的三个IPC子类。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/vepnl85ayt08lfze7lvbzv0h/image_1cu1nbce0h091t7b1m0u16lj19iu68.png" alt="image_1cu1nbce0h091t7b1m0u16lj19iu68.png-18.8kB"></p>
 <h3 id="★-竞赛概述"><a href="#★-竞赛概述" class="headerlink" title="★ 竞赛概述"></a><strong>★ 竞赛概述</strong></h3><ul>
@@ -371,13 +372,13 @@
 <p>对于CLS1和CLS2，由于类别是准确知道的，所以直接将分类编码提取就可以进行评估。而对于IMG-CLS，所有的评估都是手工标注完成的。</p>
 <h3 id="★-参赛方案"><a href="#★-参赛方案" class="headerlink" title="★ 参赛方案"></a><strong>★ 参赛方案</strong></h3><p>一共有12支队伍参加了比赛，但是对于涉及专利图像的比赛，分别只有1支和4支队伍参加。以下提炼部分队伍的关键技术。</p>
 <p>队伍1，参加PAC：使用Xtrieval框架（为许多检索引擎提供接口），在预处理中针对不同的专利类别创建停用词列表，每种语言的专利分别处理；对比了使用长句和短句的检索，发现长句效果更好。</p>
-<p><strong>队伍2</strong>，参加PAC：使用Lemur工具集，将其它语言都翻译成英语；应用了一种短语抽取技术来创建检索式，接着将得到的专利转换成基于IPC分类的文档向量来检查相关性。</p>
+<p><strong>※队伍2</strong>，参加PAC：使用Lemur工具集，将其它语言都翻译成英语；应用了一种短语抽取技术来创建检索式，接着将得到的专利转换成基于IPC分类的文档向量来检查相关性。</p>
 <p>队伍3，参加IMG-CLS：使用了图像的LBP，MPEG-7特征以及通过OCR得到的文本，利用SVM进行分类。实验了单一特征与多种特征的融合，最理想的方案是只使用LBP特征。</p>
 <p>队伍4，参加PAC：使用PatTextTiling技术（基于TextTiling算法），对专利进行总结。对专利文档进行停用词过滤和词干还原后，使用Terrier进行编码。</p>
-<p><strong>队伍5</strong>，参加CLS：使用Linguistic Classification System来配置三种分类器：Navie Bayes，Winnow和SVM。在训练阶段，只使用的英语专利的摘要和描述（前400词），通过<a href="http://www.phasar.cs.ru.nl/aboutTM4IP.pdf" target="_blank" rel="noopener">AEGIR依存分析器</a>将本文转化为三元组。</p>
+<p><strong>※队伍5</strong>，参加CLS：使用Linguistic Classification System来配置三种分类器：Navie Bayes，Winnow和SVM。在训练阶段，只使用的英语专利的摘要和描述（前400词），通过<a href="http://www.phasar.cs.ru.nl/aboutTM4IP.pdf" target="_blank" rel="noopener">AEGIR依存分析器</a>将本文转化为三元组。</p>
 <p>队伍6，参加PAC：使用bag-of-words（词袋）的方法，来挖掘句法及语义信息。只使用了英语专利的标题、摘要、权利要求以及描述。检索是使用Spinque框架完成的，它提供用户一个可视化接口来完成检索策略的定义。</p>
 <p>队伍7，参加PAC和CLS：从文档中挑选出赋予不同权重的关键词。然后进行词性标注和各种垃圾词的过滤，考虑剩下文本的词语共现情况。其它语言都通过MyMemory翻译服务转换成英语。整个任务是基于Lucene的，它是一个基于Java的接口。分类任务用的是KNN算法。</p>
-<p>队伍8，参加了IMG-PAC和IMG-CLS：使用Fisher Vector来表示图像，通过线性分类器完成分类。为了扩大数据集，对原有训练集内的图像进行了旋转。对于专利文本的检索，不同部分的信息被赋予不同的权重。相似度是通过IPC类别以及引用图谱来融合计算的。由于利用图像信息检索的性能较差，所以将其融合至只利用文本信息的检索中，融合后的性能好于只使用文本信息检索。</p>
+<p><strong>※队伍8</strong>，参加了IMG-PAC和IMG-CLS：使用Fisher Vector来表示图像，通过线性分类器完成分类。为了扩大数据集，对原有训练集内的图像进行了旋转。对于专利文本的检索，不同部分的信息被赋予不同的权重。相似度是通过IPC类别以及引用图谱来融合计算的。由于利用图像信息检索的性能较差，所以将其融合至只利用文本信息的检索中，融合后的性能好于只使用文本信息检索。</p>
 <h3 id="★-评价指标"><a href="#★-评价指标" class="headerlink" title="★ 评价指标"></a><strong>★ 评价指标</strong></h3><p>对于PAC任务，评价指标包括：</p>
 <ul>
 <li>Precision@1, Precision@5, Precision@10, Precision@20, Precision@50, Precision@100</li>
@@ -407,7 +408,7 @@
 <p><img src="http://static.zybuluo.com/jiangshuo1016/ndr68o1yn3hov4n4k5anllt1/image_1cu1k60iq1a9ss5ihob19tqhv53k.png" alt="image_1cu1k60iq1a9ss5ihob19tqhv53k.png-30.5kB"></p>
 <h4 id="☆-IMG-PAC"><a href="#☆-IMG-PAC" class="headerlink" title="☆ IMG-PAC"></a><strong>☆ IMG-PAC</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/6ogtiuo25qi876w596tqrsrl/image_1cu1k0o45nhld1teh03kd1nkj20.png" alt="image_1cu1k0o45nhld1teh03kd1nkj20.png-30.1kB"></p>
 <p><strong>结论：</strong>召回率很高，达到95%，准确率在10%左右。</p>
-<h4 id="☆-IMG-CLS-1"><a href="#☆-IMG-CLS-1" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/m8ruw44kvrf8uthsr2icqz2s/image_1cu1k7f5lhap151f16a6a6o1hnr4h.png" alt="image_1cu1k7f5lhap151f16a6a6o1hnr4h.png-27.9kB"></p>
+<h4 id="☆-IMG-CLS-1"><a href="#☆-IMG-CLS-1" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/h3gtlntyu670c9c6pgthn6ga/image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png" alt="image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png-51.4kB"></p>
 <p><strong>结论：队伍8表现更优秀，方法值得借鉴。</strong></p>
 <p><strong>自己的收获：</strong></p>
 <ol>
