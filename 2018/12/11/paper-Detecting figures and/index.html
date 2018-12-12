@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="patent," />
 
 
 
@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="精读★专利图像分类 | Document image classification, with a specific view on applications of patent images★专利图像分类 | CLEF-IP 2011: Retrieval in the Intellectual Property Domain 略读★专利图像检测 | Detecting figures and">
-<meta name="keywords" content=".">
-<meta property="og:type" content="website">
-<meta property="og:title" content="保持动力">
-<meta property="og:url" content="jrunning.cn/study/index.html">
+<meta name="description" content="专利中的图片检测以及零件标签检测 Riedl C, Zanibbi R, Hearst M A, et al. Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms[J]. International Journal on Docu">
+<meta name="keywords" content="patent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记 | 专利图像检测">
+<meta property="og:url" content="jrunning.cn/2018/12/11/paper-Detecting figures and/index.html">
 <meta property="og:site_name" content="保持动力">
-<meta property="og:description" content="精读★专利图像分类 | Document image classification, with a specific view on applications of patent images★专利图像分类 | CLEF-IP 2011: Retrieval in the Intellectual Property Domain 略读★专利图像检测 | Detecting figures and">
+<meta property="og:description" content="专利中的图片检测以及零件标签检测 Riedl C, Zanibbi R, Hearst M A, et al. Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms[J]. International Journal on Docu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-12T03:24:02.212Z">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/8s9j79u5lrzzsset5klzwwqi/image_1cug34jqcs981m741rs64dda1s9.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/un3n4hgr2hkd5gl8gnkis0d5/Image.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/f8y0ek9le1l8mx4eephidybt/image_1cug3jrig10pbj7817u61o1r1rdr7b.png">
+<meta property="og:updated_time" content="2018-12-12T03:08:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="保持动力">
-<meta name="twitter:description" content="精读★专利图像分类 | Document image classification, with a specific view on applications of patent images★专利图像分类 | CLEF-IP 2011: Retrieval in the Intellectual Property Domain 略读★专利图像检测 | Detecting figures and">
+<meta name="twitter:title" content="论文笔记 | 专利图像检测">
+<meta name="twitter:description" content="专利中的图片检测以及零件标签检测 Riedl C, Zanibbi R, Hearst M A, et al. Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms[J]. International Journal on Docu">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangshuo1016/8s9j79u5lrzzsset5klzwwqi/image_1cug34jqcs981m741rs64dda1s9.png">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="jrunning.cn/study/"/>
+  <link rel="canonical" href="jrunning.cn/2018/12/11/paper-Detecting figures and/"/>
 
 
 
 
 
-  <title> | 保持动力</title>
+  <title>论文笔记 | 专利图像检测 | 保持动力</title>
   
 
 
@@ -241,35 +245,205 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/11/paper-Detecting figures and/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h1 id="精读"><a href="#精读" class="headerlink" title="精读"></a>精读</h1><p>★专利图像分类 | <a href="http://jacobrun.com/2018/12/04/2018-12-4-paper-document-image-classification/" target="_blank" rel="noopener"><strong>Document image classification, with a specific view on applications of patent images</strong></a><br>★专利图像分类 | <a href="http://jacobrun.com/2018/12/06/2018-12-6-paper-CLEF-IP-2011/" target="_blank" rel="noopener"><strong>CLEF-IP 2011: Retrieval in the Intellectual Property Domain</strong></a></p>
-<h1 id="略读"><a href="#略读" class="headerlink" title="略读"></a>略读</h1><p>★专利图像检测 | <a href="http://jacobrun.com/2018/12/11/2018-12-11-paper-detecting-figures-and" target="_blank" rel="noopener"><strong>Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms</strong></a></p>
-
+          <h1 class="post-title" itemprop="name headline">论文笔记 | 专利图像检测</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T21:53:00+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper/" itemprop="url" rel="index">
+                    <span itemprop="name">paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="专利中的图片检测以及零件标签检测"><a href="#专利中的图片检测以及零件标签检测" class="headerlink" title="专利中的图片检测以及零件标签检测"></a><strong>专利中的图片检测以及零件标签检测</strong></h2><blockquote>
+<p>Riedl C, Zanibbi R, Hearst M A, et al. <strong>Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms</strong>[J]. International Journal on Document Analysis and Recognition (IJDAR), 2016, 19(2): 155-172.</p>
+</blockquote>
+<h3 id="★-主要内容"><a href="#★-主要内容" class="headerlink" title="★ 主要内容"></a><strong>★ 主要内容</strong></h3><p>在USPTO的大多数专利文件里，包括了图片页来直接描述发明。这些页面里有图片以及一些数字标记，但是没有文本。所以读者必须要来回扫读文档来找到相关标记的描述。这个过程费时费力，通过自动创建的’tool-tips’与超链接可以改善这一问题。为此，USPTO举办了一场比赛，来检测图片以及部分零件的标记。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/8s9j79u5lrzzsset5klzwwqi/image_1cug34jqcs981m741rs64dda1s9.png" alt="image_1cug34jqcs981m741rs64dda1s9.png-322.8kB"></p>
+<p>一幅图片中，可能包含单张图片，也可能包含多张图片。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/un3n4hgr2hkd5gl8gnkis0d5/Image.png" alt="Image.png-372.5kB"></p>
+<p>图片中的标签可能使用不同的字体甚至手写，整幅图片也可能会旋转。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/f8y0ek9le1l8mx4eephidybt/image_1cug3jrig10pbj7817u61o1r1rdr7b.png" alt="image_1cug3jrig10pbj7817u61o1r1rdr7b.png-197.4kB"></p>
+<p>图名的字体形式是各种各样的，图里的文字也是各种各样的。</p>
+<h3 id="★-竞赛概况"><a href="#★-竞赛概况" class="headerlink" title="★ 竞赛概况"></a><strong>★ 竞赛概况</strong></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>系统输入</th>
+<th>系统输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8位灰度图片（300dpi）</td>
+<td>图片边界方框以及标题文本</td>
+</tr>
+<tr>
+<td>附属的HTML专利文本</td>
+<td>标签边界方框以及文本</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><a href="http://archive.ics.uci.edu/ml/datasets/USPTO+Algorithm+Challenge,+run+by+NASA-Harvard+Tournament+Lab+and+TopCoder++++Problem:+Pat" target="_blank" rel="noopener">竞赛数据集以及前五名源码</a></li>
+<li><a href="https://community.topcoder.com/longcontest/stats/?&amp;sr=1&amp;nr=50&amp;module=ViewOverview&amp;rd=15027" target="_blank" rel="noopener">竞赛结果榜单</a></li>
+</ul>
+<p><strong>获胜队伍的解决方案</strong>是使用C++编程，唯一一只使用了预先提供的HTML文本来验证检测出的图名和零件标签。使用OCR（Optical Character Recognition，光学字符识别）的结果来检测页码数字和页眉，来帮助定位HTML文本中可能的标题和标签。</p>
+<p><strong>自己的收获：</strong></p>
+<ol>
+<li>大致了解从专利中分割图片的工作以及专利中检测标签的工作。</li>
+<li>知道了关于文档图像以及文档分析，有非常多的竞赛围绕开展。</li>
+</ol>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/patent/" rel="tag"># patent</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/2018-12-6-paper-CLEF-IP-2011/" rel="next" title="论文笔记 | CLEF-IP 2011竞赛">
+                <i class="fa fa-chevron-left"></i> 论文笔记 | CLEF-IP 2011竞赛
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -414,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#精读"><span class="nav-number">1.</span> <span class="nav-text">精读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#略读"><span class="nav-number">2.</span> <span class="nav-text">略读</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#专利中的图片检测以及零件标签检测"><span class="nav-number">1.</span> <span class="nav-text">专利中的图片检测以及零件标签检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#★-主要内容"><span class="nav-number">1.1.</span> <span class="nav-text">★ 主要内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-竞赛概况"><span class="nav-number">1.2.</span> <span class="nav-text">★ 竞赛概况</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -632,6 +806,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
