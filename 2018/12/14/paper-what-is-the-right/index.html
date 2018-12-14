@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/woe3i4r8osbfr75o29pzj3xm/image_1culd9cvbf5l1aa51s663gj1038ap.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/4rjhepod2lylsd7d3hlrn38y/image_1culdiui5rao96kbsr1o5r1f0b6.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/g2edu6rn2cddwrzrfyjl94xz/image_1culdok9q87a8q11t7rdfq1k6hc0.png">
-<meta property="og:updated_time" content="2018-12-14T07:11:32.000Z">
+<meta property="og:updated_time" content="2018-12-14T08:05:35.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论文笔记 | 文档图像表示">
 <meta name="twitter:description" content="文档图像的正确表示方式 Csurka G, Larlus D, Gordo A, et al. What is the right way to represent document images?[J]. arXiv preprint arXiv:1603.01076, 2016.  在前几天读过的一篇专利图像分类的论文中（笔记链接），讲到了两种基于浅层特征的图像表示方法：Run Length和">
@@ -390,13 +390,14 @@
 <p>对于一个核函数，有：</p>
 <script type="math/tex; mode=display">K\left(X_{i},X_{j}\right)=\left[\Gamma_{\lambda}\left(I\right)\right]^{\top}\left[\Gamma_{\lambda}\left(J\right)\right]</script><p>这个$\Gamma_{\lambda}\left(I\right)$就是Fisher Kernel核函数的表示方法，即Fisher Vector，它是由Fisher Score归一化得到的。核函数需要满足：$K\left(X_{i},X_{i}\right)=1$，因此对Fisher Score需要进行归一化，形式如下：</p>
 <script type="math/tex; mode=display">\Gamma_{\lambda}\left(I\right)=F_{\lambda}^{ -\frac{1}{2} }G_{\lambda}\left(I\right)</script><p>其中，$F_{\lambda}$是Fisher信息矩阵，$G_{\lambda}$是Fisher Score，定义：</p>
-<script type="math/tex; mode=display">G_{\lambda}\left(I\right)=\frac{1}{T}\sum_{t=1}^{T}\nabla_{\lambda}\log\left\{ \sum_{n=1}^{N}\omega_{n}p\left(x_{t}\mid\mu_{n},{\scriptstyle \sum_{n}}\right)\right\}</script><p>这里，$X_{I}=\left\{ x_{t}\right\} _{t=1}^{T}$是从图形$I$中提取的低维特征，特征间独立同分布，服从于分布$p$，是一个GMM。$\mu_{n}$和$\sum_{n}$是均值和协方差，都是GMM的模型参数，$\omega_{n}$是GMM中第$n$个量的权重。这个$\log$似然函数对$\lambda$的梯度，描述了参数$\lambda$在$p$生成特征点集合$X$的过程中如何作用，所以这个Fisher Score中也包含了GMM生成$X$的过程中的一些结构化的信息。<br>Fisher信息矩阵，是用来作归一化的，其计算方法为：</p>
+<script type="math/tex; mode=display">G_{\lambda}\left(I\right)=\frac{1}{T}\sum_{t=1}^{T}\nabla_{\lambda}\log\left\{ \sum_{n=1}^{N}\omega_{n}p\left(x_{t}\mid\mu_{n},{\scriptstyle \sum_{n}}\right)\right\}</script><p>这里，$X_{I}=\left\{ x_{t}\right\} _{t=1}^{T}$是从图形$I$中提取的低维特征，特征间独立同分布，服从于分布$p$，是一个GMM。$\mu_{n}$和$\sum_{n}$是均值和协方差，都是GMM的模型参数，$\omega_{n}$是GMM中第$n$个量的权重。这个$\log$似然函数对$\lambda$的梯度，描述了参数$\lambda$在$p$生成特征点集合$X$的过程中如何作用，所以这个Fisher Score中也包含了GMM生成$X$的过程中的一些结构化的信息。</p>
+<p>Fisher信息矩阵，是用来作归一化的，其计算方法为：</p>
 <script type="math/tex; mode=display">F_{\lambda}=G_{\lambda}G_{\lambda}^{\top}</script><p>分别对$G_{\lambda}$求关于均值与协方差的梯度，我们可以得到：</p>
 <script type="math/tex; mode=display">\Gamma_{ \mu_{n}^{d} }\left(I\right)=\frac{1}{ T\sqrt{ \omega_{n} } }\sum_{t=1}^{T}g_{n}\left(x_{t}\right)\left(\frac{ x_{t}^{d}-\mu_{n}^{d} } { s_{n}^{d} }\right)</script><script type="math/tex; mode=display">\Gamma_{ s_{n}^{d} }\left(I\right)=\frac{1}{ T\sqrt{ 2\omega_{n} } }\sum_{t=1}^{T}g_{n}\left(x_{t}\right)\left[\frac{ \left(x_{t}^{d}-\mu_{n}^{d}\right)^{2} }{ \left(s_{n}^{d}\right)^{2} }-1\right]</script><p>其中，${\scriptstyle g_{n}\left(x_{t}\right)}=\frac{ {\scriptstyle \omega_{n} } {\scriptstyle p\left({\scriptstyle x\mid\mu_{n},{\scriptstyle {\scriptscriptstyle \sum}_{n} } }\right)} } { { \scriptstyle \sum_{j=1}^{N}\omega_{j}p\left(x\mid\mu_{j},{\scriptstyle {\scriptscriptstyle \sum_{j} } }\right)} }$，$s_n^d$是$\sum_n$的对角线元素。联合$\Gamma_{\mu_{n}^{d} }\left(I\right),\Gamma_{s_{n}^{d} }\left(I\right)$以及$\Gamma_{\lambda}\left(I\right)$，最终得到的特征一共是$2ND$维，$D$是低维特征$x_t$的维度。然后对最终的$2ND$维特征向量进行l2范数规范化，获得最终的Fisher Vector。</p>
 <p><strong>可以看到，$D$维向量$x_t$中的每一个值，都与均值和方差做运算，并加上权重，Fisher Vector中包含了原特征向量每一维的值，并且包含了生成式建模过程的结构性信息，对图片的表达更加细致。</strong></p>
 <h4 id="☆-卷积神经网络"><a href="#☆-卷积神经网络" class="headerlink" title="☆ 卷积神经网络"></a><strong>☆ 卷积神经网络</strong></h4><p>卷积神经网络，在端到端的模式下，通过多个线性层或非线性层的联合学习，实现解决某一特殊任务。<a href="https://blog.csdn.net/langb2014/article/details/53019350" target="_blank" rel="noopener">端到端</a>，指的是输入是原始数据，输出是最后的结果，原来输入端不是直接的原始数据，而是在原始数据中提取的特征。其好处是：通过缩减人工预处理和后续处理，尽可能使模型从原始输入到最终输出，给模型更多可以根据数据自动调节的空间，增加模型的整体契合度。</p>
-<p>卷积神经网络，通常包括卷积层、全连接层以及作为最终层的Softmax层。一个前馈的神经网络可以被视作是一系列嵌套的函数：<script type="math/tex">{\displaystyle F\left(x\right)=F_{L}\left(\ldots F_{2}\left(F_{1}\left(x,W_{1}\right),W_{2}\right),\ldots,W_{L}\right)}</script></p>
-<p><img src="http://static.zybuluo.com/jiangshuo1016/2k8in3w5o9xyb9txm0bk71u6/image_1cuj5qe0f1ti81l9livnol1c68l.png" alt="image_1cuj5qe0f1ti81l9livnol1c68l.png-158.9kB"></p>
+<p>卷积神经网络，通常包括卷积层、全连接层以及作为最终层的Softmax层。一个前馈的神经网络可以被视作是一系列嵌套的函数：</p>
+<script type="math/tex; mode=display">{\displaystyle F\left(x\right)=F_{L}\left(\ldots F_{2}\left(F_{1}\left(x,W_{1}\right),W_{2}\right),\ldots,W_{L}\right)}</script><p><img src="http://static.zybuluo.com/jiangshuo1016/2k8in3w5o9xyb9txm0bk71u6/image_1cuj5qe0f1ti81l9livnol1c68l.png" alt="image_1cuj5qe0f1ti81l9livnol1c68l.png-158.9kB"></p>
 <blockquote>
 <p>关于卷积神经网络细节介绍，可以参考这份PPT：<a href="https://wenku.baidu.com/view/b0b2bf5800f69e3143323968011ca300a6c3f68f.html" target="_blank" rel="noopener">Introduction to CNNs and AlexNet</a></p>
 </blockquote>
