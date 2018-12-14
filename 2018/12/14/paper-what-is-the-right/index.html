@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="image," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文档图像的正确表示方式 Csurka G, Larlus D, Gordo A, et al. What is the right way to represent document images?[J]. arXiv preprint arXiv:1603.01076, 2016.  在前几天读过的一篇专利图像分类的论文中（笔记链接），讲到了两种基于浅层特征的图像表示方法：Run Length和">
+<meta name="keywords" content="image">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记 | 文档图像表示">
+<meta property="og:url" content="jrunning.cn/2018/12/14/paper-what-is-the-right/index.html">
+<meta property="og:site_name" content="保持动力">
+<meta property="og:description" content="文档图像的正确表示方式 Csurka G, Larlus D, Gordo A, et al. What is the right way to represent document images?[J]. arXiv preprint arXiv:1603.01076, 2016.  在前几天读过的一篇专利图像分类的论文中（笔记链接），讲到了两种基于浅层特征的图像表示方法：Run Length和">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/sy5qgq2413g74qp75fz92j4w/QQ%E6%88%AA%E5%9B%BE20181213102949.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/2k8in3w5o9xyb9txm0bk71u6/image_1cuj5qe0f1ti81l9livnol1c68l.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/sc4tiy8swqbuvv19efulyf53/QQ%E6%88%AA%E5%9B%BE20181213150616.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/h5fws7ov8h7zjqb5s7kbcbs9/QQ%E6%88%AA%E5%9B%BE20181213161231.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/uf19o63vh0gjkeoc45ixerls/QQ%E6%88%AA%E5%9B%BE20181213170316.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/2hvs84xachi6nt6dediko9x4/image_1cul732tnp7va741e1ihetap9.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/rpselsu5ko0jaj0in354b7g9/image_1cul8fs9r1e2i6tvm681nche9826.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/kr4ixm5xcnnnfmmktdpl5jq8/image_1cul8gu2b16go1pl113vv7rj78833.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/0iv6mie7p64fb8pgyivbmxun/image_1cul8hmb81um1vvttabbl71lg63t.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/iaapd704xvdufi7vaxtxedds/image_1cul8lf0eiq31ih5l881s8ce7p6p.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/lrthiebolbjpbt8du4w87frw/image_1cul8mm9n572jd13rh1kep1rp176.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/lhnx2heg1qzhv4utnbe6vn5y/image_1cul8n58rkj9jt21o5lq0r18eq7j.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/fyxvb850nq5cb39hfs236d24/QQ%E6%88%AA%E5%9B%BE20181214113653.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/dl4zi7coh7mtnv0vf0u4d74g/image_1culcqdsta32rdi1mcnbbt1tciac.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/woe3i4r8osbfr75o29pzj3xm/image_1culd9cvbf5l1aa51s663gj1038ap.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/4rjhepod2lylsd7d3hlrn38y/image_1culdiui5rao96kbsr1o5r1f0b6.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/g2edu6rn2cddwrzrfyjl94xz/image_1culdok9q87a8q11t7rdfq1k6hc0.png">
+<meta property="og:updated_time" content="2018-12-14T07:11:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="论文笔记 | 文档图像表示">
+<meta name="twitter:description" content="文档图像的正确表示方式 Csurka G, Larlus D, Gordo A, et al. What is the right way to represent document images?[J]. arXiv preprint arXiv:1603.01076, 2016.  在前几天读过的一篇专利图像分类的论文中（笔记链接），讲到了两种基于浅层特征的图像表示方法：Run Length和">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangshuo1016/sy5qgq2413g74qp75fz92j4w/QQ%E6%88%AA%E5%9B%BE20181213102949.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="jrunning.cn/2018/12/14/paper-what-is-the-right/"/>
+
+
+
+
+
+  <title>论文笔记 | 文档图像表示 | 保持动力</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">保持动力</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">寻找稳固的自我</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-study">
+          <a href="/study/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            论文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nav">
+          <a href="/nav/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br />
+            
+            导航
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/14/paper-what-is-the-right/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">论文笔记 | 文档图像表示</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-14T21:53:00+08:00">
+                2018-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper/" itemprop="url" rel="index">
+                    <span itemprop="name">paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="文档图像的正确表示方式"><a href="#文档图像的正确表示方式" class="headerlink" title="文档图像的正确表示方式"></a><strong>文档图像的正确表示方式</strong></h2><blockquote>
+<p>Csurka G, Larlus D, Gordo A, et al. <strong>What is the right way to represent document images?</strong>[J]. arXiv preprint arXiv:1603.01076, 2016.</p>
+</blockquote>
+<p>在前几天读过的一篇专利图像分类的论文中（<a href="http://jacobrun.com/2018/12/04/2018-12-4-paper-document-image-classification/" target="_blank" rel="noopener">笔记链接</a>），讲到了两种基于浅层特征的图像表示方法：Run Length和Fisher Vector。本文从更全面的视角，比较了浅层特征图像表示方法、深层特征图像表示方法（基于卷积神经网络）以及基于前两类特征的混合表示方法。</p>
+<h3 id="★-摘要"><a href="#★-摘要" class="headerlink" title="★ 摘要"></a><strong>★ 摘要</strong></h3><p>本文探讨了基于视觉特征的图像表示方法，通过广泛的实验研究对三种表示方法进行了比较：</p>
+<ul>
+<li>传统浅层特征：Run Length及Fisher Vector</li>
+<li>深层特征：基于卷积神经网络的表示</li>
+<li>从混合结构中提取的特征</li>
+</ul>
+<p>通过不同的任务（分类、聚类及检索）、不同的情境（领域迁移）、使用不同的数据集对这些特征表示方法进行了评估。<strong>结果表明：在没有领域迁移的情况下，即新任务与训练模型的任务较为接近时，深层特征表现较好；而在领域范围较大或有领域迁移的情况下，浅层特征Fisher Vector表现较好。</strong></p>
+<h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p>文档图像的理解与表示，通常有三个切入点线索：视觉线索、结构线索、文本线索。视觉线索展现的是一个图片的整体形貌，通过“整体一瞥”的方式来区分图片。结构线索捕获文档不同部分之间的关系，比如布局分析等。文本线索是从文档中获取文本信息，其中往往包括了语义信息。</p>
+<p>同时使用三种线索会得到最好的效果，然而获取结构线索及语义线索的计算代价很大，在大规模领域里不适用。比如结构线索需要对文档布局进行分析，文本线索需要对整个文档执行OCR，它们都慢而易错。而且，这两种线索往往都限定在特定的领域，不具备迁移性。</p>
+<p>视觉特征更一般化而且往往可以很快速地获得，因此在文档理解工作中被大量使用，有时再将另外两类信息结合进去。最近，深度学习技术被用于建立文档的视觉表示，在分类和检索任务中取得了比传统浅层特征、手工特征等更好的效果。但是深度学习对于文档图像的表示，还残留了两个问题至今没有解决：对于给定的任务与数据集，深度特征在所有的案例上都比浅层特征要好吗？它对于领域迁移、任务迁移以及数据集迁移，表现的都更好吗？</p>
+<p>此外，也有研究提出了将深度表示模型与浅层特征结合，在浅层特征的顶层加上深度表示特征，旨在结合两者的优点。</p>
+<h3 id="★-相关工作"><a href="#★-相关工作" class="headerlink" title="★ 相关工作"></a><strong>★ 相关工作</strong></h3><p>传统视觉特征是基于图像像素的简单统计规律。更详尽的浅层特征表示例如RunLength，结合金字塔方法，对于一些任务有更好的准确性。受自然图像表示的启发，bag-of-visual-words（BoV）或Fisher Vector表示方法，它们基于SIFT或SURF描述符，具有更好的泛化能力。</p>
+<p>近期，基于CNN的表示方法，在分类和检索的性能上要好于BoV。深度特征的特点是端到端的学习，这意味着特征结构和预测被合并到同一个步骤中。也就是说，特征以及分类器被联合学习，不能被分开了。这种表示方法被大范围地证明要好于浅层特征，但是它们往往针对特定领域，对于通用的文档图像表示还没有被详细研究。而且训练的速度非常慢。</p>
+<p>混合CNN以及FV的表示方法在近期被提出，这种方法被证明有较好的迁移性，但是在文档图像中还没有得到应用。</p>
+<h3 id="★-文档图像特征表示"><a href="#★-文档图像特征表示" class="headerlink" title="★ 文档图像特征表示"></a><strong>★ 文档图像特征表示</strong></h3><h4 id="☆-Run-Length"><a href="#☆-Run-Length" class="headerlink" title="☆ Run Length"></a><strong>☆ Run Length</strong></h4><blockquote>
+<p>Chan Y K, Chang C C. <strong>Image matching using run-length feature</strong>[J]. Pattern Recognition Letters, 2001, 22(5): 447-455.</p>
+</blockquote>
+<p>具体细节理解可以参见：<a href="http://jacobrun.com/2018/12/04/2018-12-4-paper-document-image-classification/" target="_blank" rel="noopener">笔记链接</a></p>
+<h4 id="☆-Fisher-Vector"><a href="#☆-Fisher-Vector" class="headerlink" title="☆ Fisher Vector"></a><strong>☆ Fisher Vector</strong></h4><blockquote>
+<p>Perronnin F, Dance C. <strong>Fisher kernels on visual vocabularies for image categorization</strong>[C]//2007 IEEE conference on computer vision and pattern recognition. IEEE, 2007: 1-8.</p>
+</blockquote>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/sy5qgq2413g74qp75fz92j4w/QQ%E6%88%AA%E5%9B%BE20181213102949.png" alt="QQ截图20181213102949.png-57.6kB"></p>
+<p>FV可以看作是BoV的扩展，BoV仅仅使用0阶统计规律，而FV编码了更高阶的信息。与BoV相似，FV依赖于中间的表示：视觉词汇表，它可以被视作描述图像中低阶描述符排布的概率密度函数。我们使用高斯混合模型（GMM）来表示密度。</p>
+<p>对于一个核函数，有：</p>
+<script type="math/tex; mode=display">K\left(X_{i},X_{j}\right)=\left[\Gamma_{\lambda}\left(I\right)\right]^{\top}\left[\Gamma_{\lambda}\left(J\right)\right]</script><p>这个$\Gamma_{\lambda}\left(I\right)$就是Fisher Kernel核函数的表示方法，即Fisher Vector，它是由Fisher Score归一化得到的。核函数需要满足：$K\left(X_{i},X_{i}\right)=1$，因此对Fisher Score需要进行归一化，形式如下：</p>
+<script type="math/tex; mode=display">\Gamma_{\lambda}\left(I\right)=F_{\lambda}^{ -\frac{1}{2} }G_{\lambda}\left(I\right)</script><p>其中，$F_{\lambda}$是Fisher信息矩阵，$G_{\lambda}$是Fisher Score，定义：</p>
+<script type="math/tex; mode=display">G_{\lambda}\left(I\right)=\frac{1}{T}\sum_{t=1}^{T}\nabla_{\lambda}\log\left\{ \sum_{n=1}^{N}\omega_{n}p\left(x_{t}\mid\mu_{n},{\scriptstyle \sum_{n}}\right)\right\}</script><p>这里，$X_{I}=\left\{ x_{t}\right\} _{t=1}^{T}$是从图形$I$中提取的低维特征，特征间独立同分布，服从于分布$p$，是一个GMM。$\mu_{n}$和$\sum_{n}$是均值和协方差，都是GMM的模型参数，$\omega_{n}$是GMM中第$n$个量的权重。这个$\log$似然函数对$\lambda$的梯度，描述了参数$\lambda$在$p$生成特征点集合$X$的过程中如何作用，所以这个Fisher Score中也包含了GMM生成$X$的过程中的一些结构化的信息。<br>Fisher信息矩阵，是用来作归一化的，其计算方法为：</p>
+<script type="math/tex; mode=display">F_{\lambda}=G_{\lambda}G_{\lambda}^{\top}</script><p>分别对$G_{\lambda}$求关于均值与协方差的梯度，我们可以得到：</p>
+<script type="math/tex; mode=display">\Gamma_{ \mu_{n}^{d} }\left(I\right)=\frac{1}{ T\sqrt{ \omega_{n} } }\sum_{t=1}^{T}g_{n}\left(x_{t}\right)\left(\frac{ x_{t}^{d}-\mu_{n}^{d} } { s_{n}^{d} }\right)</script><script type="math/tex; mode=display">\Gamma_{ s_{n}^{d} }\left(I\right)=\frac{1}{ T\sqrt{ 2\omega_{n} } }\sum_{t=1}^{T}g_{n}\left(x_{t}\right)\left[\frac{ \left(x_{t}^{d}-\mu_{n}^{d}\right)^{2} }{ \left(s_{n}^{d}\right)^{2} }-1\right]</script><p>其中，${\scriptstyle g_{n}\left(x_{t}\right)}=\frac{ {\scriptstyle \omega_{n} } {\scriptstyle p\left({\scriptstyle x\mid\mu_{n},{\scriptstyle {\scriptscriptstyle \sum}_{n} } }\right)} } { { \scriptstyle \sum_{j=1}^{N}\omega_{j}p\left(x\mid\mu_{j},{\scriptstyle {\scriptscriptstyle \sum_{j} } }\right)} }$，$s_n^d$是$\sum_n$的对角线元素。联合$\Gamma_{\mu_{n}^{d} }\left(I\right),\Gamma_{s_{n}^{d} }\left(I\right)$以及$\Gamma_{\lambda}\left(I\right)$，最终得到的特征一共是$2ND$维，$D$是低维特征$x_t$的维度。然后对最终的$2ND$维特征向量进行l2范数规范化，获得最终的Fisher Vector。</p>
+<p><strong>可以看到，$D$维向量$x_t$中的每一个值，都与均值和方差做运算，并加上权重，Fisher Vector中包含了原特征向量每一维的值，并且包含了生成式建模过程的结构性信息，对图片的表达更加细致。</strong></p>
+<h4 id="☆-卷积神经网络"><a href="#☆-卷积神经网络" class="headerlink" title="☆ 卷积神经网络"></a><strong>☆ 卷积神经网络</strong></h4><p>卷积神经网络，在端到端的模式下，通过多个线性层或非线性层的联合学习，实现解决某一特殊任务。<a href="https://blog.csdn.net/langb2014/article/details/53019350" target="_blank" rel="noopener">端到端</a>，指的是输入是原始数据，输出是最后的结果，原来输入端不是直接的原始数据，而是在原始数据中提取的特征。其好处是：通过缩减人工预处理和后续处理，尽可能使模型从原始输入到最终输出，给模型更多可以根据数据自动调节的空间，增加模型的整体契合度。</p>
+<p>卷积神经网络，通常包括卷积层、全连接层以及作为最终层的Softmax层。一个前馈的神经网络可以被视作是一系列嵌套的函数：<script type="math/tex">{\displaystyle F\left(x\right)=F_{L}\left(\ldots F_{2}\left(F_{1}\left(x,W_{1}\right),W_{2}\right),\ldots,W_{L}\right)}</script></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/2k8in3w5o9xyb9txm0bk71u6/image_1cuj5qe0f1ti81l9livnol1c68l.png" alt="image_1cuj5qe0f1ti81l9livnol1c68l.png-158.9kB"></p>
+<blockquote>
+<p>关于卷积神经网络细节介绍，可以参考这份PPT：<a href="https://wenku.baidu.com/view/b0b2bf5800f69e3143323968011ca300a6c3f68f.html" target="_blank" rel="noopener">Introduction to CNNs and AlexNet</a></p>
+</blockquote>
+<p>尽管卷积神经网络在1990年左右就被提出（LeNet），但是随着最近它被广泛成功应用于图像识别竞赛，越来越多不同结构的卷积神经网络被提出。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/sc4tiy8swqbuvv19efulyf53/QQ%E6%88%AA%E5%9B%BE20181213150616.png" alt="QQ截图20181213150616.png-226.7kB"></p>
+<p>本文聚焦于两种流行的CNN框架：$AlexNet$（左上）和$GoogLeNet$（左下）。</p>
+<p>※$AlexNet$：<a href="https://blog.csdn.net/qq_24695385/article/details/80368618" target="_blank" rel="noopener">详细解读</a><br>※$GoogLeNet$：<a href="https://blog.csdn.net/cdknight_happy/article/details/79247280" target="_blank" rel="noopener">详细解读</a></p>
+<h4 id="☆-混合描述符"><a href="#☆-混合描述符" class="headerlink" title="☆ 混合描述符"></a><strong>☆ 混合描述符</strong></h4><blockquote>
+<p>Perronnin F, Larlus D. <strong>Fisher vectors meet neural networks: A hybrid classification architecture</strong>[C]//Proceedings of the IEEE conference on computer vision and pattern recognition. 2015: 3743-3752.</p>
+</blockquote>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/h5fws7ov8h7zjqb5s7kbcbs9/QQ%E6%88%AA%E5%9B%BE20181213161231.png" alt="QQ截图20181213161231.png-64.8kB"></p>
+<p>混合描述符表示结合了FV的无监督部分以及CNN的有监督部分，前半部分照搬上文讲解的FV特征，后面通过L-1个全连接层以及最终的softmax层输出。同样的，前面的无监督部分也可以使用RL来表示。</p>
+<h3 id="★-训练"><a href="#★-训练" class="headerlink" title="★ 训练"></a><strong>★ 训练</strong></h3><h4 id="☆-为相同的任务训练"><a href="#☆-为相同的任务训练" class="headerlink" title="☆ 为相同的任务训练"></a><strong>☆ 为相同的任务训练</strong></h4><p>RL并不需要任何的训练，所有的参数都是预先定义的，因而它与数据集是无关的。FV需要一个通过无监督学习（通过对数据集聚类局部特征）得到的视觉码表，此外它不需要依赖任何数据，而且与任务是独立的。为了解决分类问题，文档图像特征以及文档标签被用于训练分类器。在我们的所有实验中，均使用线性SVM分类器，连接在RL或FV特征的上面。</p>
+<p>不同于RL与FV，CNN是一种深度学习方法，特征提取步骤和分类任务是用同一个架构来完成的。我们将选择AlexNet和GoogLeNet作为结构，使用交叉熵作为损失函数通过SGD（随机梯度下降法）进行优化，分别训练两个网络。此外，还使用了dropout以防止过拟合。</p>
+<p>而混合表示的训练，就是以上两种情况的结合。</p>
+<h4 id="☆-为不同的任务训练"><a href="#☆-为不同的任务训练" class="headerlink" title="☆ 为不同的任务训练"></a><strong>☆ 为不同的任务训练</strong></h4><p>RL与FV，描述符可以直接地被应用于其它的任务，唯一需要做的就是给它一个好的排序/预测/分类器。而对于CNN而言，除了直接端到端训练以完成既定任务以外，还可以单独地作为特征提取器来使用，深度网络往往可以提取更复杂的特征以及语义信息。这样一来，CNN也可以像RL与FV那样，后接其它的排序/预测/分类器，完成不同的任务。在CNN中，我们从不同深度的操作层中提取出特征进行实验，以对比效果。</p>
+<p>本文中，我们通过一系列任务进行定量实验，包括：图像分类、图像检索、目标检测以及动作识别。它们都可以被泛化到文档图像中。</p>
+<h3 id="★-评估"><a href="#★-评估" class="headerlink" title="★ 评估"></a><strong>★ 评估</strong></h3><h4 id="☆-数据集"><a href="#☆-数据集" class="headerlink" title="☆ 数据集"></a><strong>☆ 数据集</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/uf19o63vh0gjkeoc45ixerls/QQ%E6%88%AA%E5%9B%BE20181213170316.png" alt="QQ截图20181213170316.png-57.9kB"></p>
+<p>本文一共使用了7个数据集，前4个是公开数据集，后3个是内部数据集。</p>
+<p>※RVL-CDIP：共有400000幅带标签的图片，分为16类：信件、备忘录、邮件等等。<br>※NIST：共有5590幅图片，分为12类的税表。<br>※MARG：共有1553个文档，每个文档是医学杂志的封面，分为9类布局。<br>※CLEF-IP：38081个专利图像，分为9个类别：流程图、零件图、表格等等。</p>
+<h4 id="☆-执行细节"><a href="#☆-执行细节" class="headerlink" title="☆ 执行细节"></a><strong>☆ 执行细节</strong></h4><p>RL：5层金字塔，q=11，特征是10648维。图片二值化后，重排列至250K像素。该特征是独立于数据集的，因此可以运用到所有的任务中。</p>
+<p>FV：基于5种尺度的SIFT特征，原始的SIFT特征通过PCA降维至77维，再联合位置等信息添加到80维。考虑不同大小的视觉词表。对于一个新的数据集，可以考虑新的SIFT-PCA和GMM来建立FV，也可以使用旧的模型。</p>
+<p>混合：RL+MLP，FV+MLP。不同尺寸的FV需要不同的混合模型。</p>
+<p>CNN：两种结构的网络，初始化过程可以在线获得。使用ImageNet2012预训练的网络，其效果要好于通过数据集训练的网络。因此我们选择预训练好的网络，再对其根据数据集进行调整。</p>
+<h3 id="★-实验"><a href="#★-实验" class="headerlink" title="★ 实验"></a><strong>★ 实验</strong></h3><p>实验分为两个部分，第一部分是使用RVL-CDIP数据集进行分类实验，第二部分是测试特征迁移到其它数据集的新任务上的表现。</p>
+<h4 id="☆-第一部分"><a href="#☆-第一部分" class="headerlink" title="☆ 第一部分"></a><strong>☆ 第一部分</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/2hvs84xachi6nt6dediko9x4/image_1cul732tnp7va741e1ihetap9.png" alt="image_1cul732tnp7va741e1ihetap9.png-18.4kB"></p>
+<p>在RVL-CDIP数据集上进行分类实验，每一种特征的实验都选择最佳的参数，结果准确率如表格中所示。首先可以看到，CNN的两种结构要好于另外的特征，其中CNN-G达到了SOTA。其次FV+MLP的混合特征，性能已经接近于CNN，而它训练速度快且不需要使用GPU。相比单纯的RL和FV，结合MLP可以明显地提升其性能。另外，本实验再次佐证了FV要好于RL。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/rpselsu5ko0jaj0in354b7g9/image_1cul8fs9r1e2i6tvm681nche9826.png" alt="image_1cul8fs9r1e2i6tvm681nche9826.png-13.5kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/kr4ixm5xcnnnfmmktdpl5jq8/image_1cul8gu2b16go1pl113vv7rj78833.png" alt="image_1cul8gu2b16go1pl113vv7rj78833.png-25.7kB"></p>
+<p>每个特征的实验中，还比较了参数选择对性能的影响，包括：FV的词表大小的选择，MLP隐藏层数以及PCA降维与否。实验发现，FV16与FV256要好于FV4；隐藏层数与PCA降维对FV的影响不大。</p>
+<h4 id="☆-第二部分"><a href="#☆-第二部分" class="headerlink" title="☆ 第二部分"></a><strong>☆ 第二部分</strong></h4><p>这部分主要是探索如何将第一部分得到的特征应用于新的数据集以及新的任务。</p>
+<p><strong>※深层特征</strong></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/0iv6mie7p64fb8pgyivbmxun/image_1cul8hmb81um1vvttabbl71lg63t.png" alt="image_1cul8hmb81um1vvttabbl71lg63t.png-80.8kB"></p>
+<p>检索任务：测试了MAP，P@1，P@5。由于它们表现相似，所以表格里仅仅列出了MAP指标。CNN-G普遍要比CNN-A好；CNN-A-p5要好于CNN-A-fc6和fc7，可能是由于类别仅有16个。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/iaapd704xvdufi7vaxtxedds/image_1cul8lf0eiq31ih5l881s8ce7p6p.png" alt="image_1cul8lf0eiq31ih5l881s8ce7p6p.png-32.6kB"></p>
+<p>聚类任务：以调整互信息（AMI）为指标，越大意味着聚类与真实情况越吻合。使用层次聚类法对它们进行聚类。CNN-G普遍要比CNN-A好。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/lrthiebolbjpbt8du4w87frw/image_1cul8mm9n572jd13rh1kep1rp176.png" alt="image_1cul8mm9n572jd13rh1kep1rp176.png-33.3kB"></p>
+<p>分类任务：使用NCM分类器，它不依赖参数。本可以选用kNN分类器，但是k=1时，其结果就于检索相同，因此没有选择。CNN-G与CNN-A相似。</p>
+<p><strong>※浅层特征</strong></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/lhnx2heg1qzhv4utnbe6vn5y/image_1cul8n58rkj9jt21o5lq0r18eq7j.png" alt="image_1cul8n58rkj9jt21o5lq0r18eq7j.png-71.3kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/fyxvb850nq5cb39hfs236d24/QQ%E6%88%AA%E5%9B%BE20181214113653.png" alt="QQ截图20181214113653.png-61.2kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/dl4zi7coh7mtnv0vf0u4d74g/image_1culcqdsta32rdi1mcnbbt1tciac.png" alt="image_1culcqdsta32rdi1mcnbbt1tciac.png-71.5kB"></p>
+<p>在三项任务中，FV256+MLP在多数的数据集中总是表现最好，而PCA步骤会使性能稍稍降低。</p>
+<p><strong>※对比</strong></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/woe3i4r8osbfr75o29pzj3xm/image_1culd9cvbf5l1aa51s663gj1038ap.png" alt="image_1culd9cvbf5l1aa51s663gj1038ap.png-144.7kB"></p>
+<p><strong>针对CLEF-IP数据集进行分析：FV256+PCA要好于CNN，可能有以下两点原因：图片的尺寸各异，使得CNN表示不能很好地适应所有的图片；类内的差异大，从整体的布局不能很好地得到类别。</strong></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/4rjhepod2lylsd7d3hlrn38y/image_1culdiui5rao96kbsr1o5r1f0b6.png" alt="image_1culdiui5rao96kbsr1o5r1f0b6.png-150.2kB"><br><img src="http://static.zybuluo.com/jiangshuo1016/g2edu6rn2cddwrzrfyjl94xz/image_1culdok9q87a8q11t7rdfq1k6hc0.png" alt="image_1culdok9q87a8q11t7rdfq1k6hc0.png-69.5kB"></p>
+<p>这张图是随机选取图片作为相似检索，紫色框表示输入，上方（左）是FV256+PCA给出的结果，下方（右）是CNN-G-i4e给出的结果。绿色框表示相关，红色框表示不相关。</p>
+<h3 id="★-总结"><a href="#★-总结" class="headerlink" title="★ 总结"></a><strong>★ 总结</strong></h3><p>这篇文章为对比三种文档图像表示方法提出了详细的基准，三种图像表示方法分别是：浅层特征（RL/FV)，深层特征（CNN-A,CNN-G），混合特征。实验首先对比了这些特征在同一个数据集上进行分类任务的表现，然后再在不同的数据集和任务上进行实验，以测试它们的泛化能力。</p>
+<p>实验结果显示，在不涉及领域迁移的情况下，CNN特征的表现最好，紧随其后的是混合特征，而且混合特征能够节省很多的训练损耗。这在自然图片中已经得到了证明，我们将结论推向了文档图像。在领域迁移中，混合特征的表现远不如浅层特征和深层特征。对于CNN而言，它可以适应于训练时任务差不多的目标任务，且在布局信息重要的数据集表现较好。而FV-PCA在图片尺寸差异较大、类内差异较大的数据集中表现得更好。</p>
+<p><strong>自己的收获：</strong></p>
+<ol>
+<li>深入学习了Fisher Vector的数学基础。</li>
+<li>对文档图像的特征表示，有了全局的认识。</li>
+<li>CLEF-IP数据集的表示，更适合选用FV-PCA特征。</li>
+<li>CLEF-IP数据集的检索实验，可以通过紫框绿框红框这种方式，可视化呈现结果。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/image/" rel="tag"># image</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/paper-Detecting-figures-and/" rel="next" title="论文笔记 | 专利图像检测">
+                <i class="fa fa-chevron-left"></i> 论文笔记 | 专利图像检测
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Jiang Shuo" />
+            
+              <p class="site-author-name" itemprop="name">Jiang Shuo</p>
+              <p class="site-description motion-element" itemprop="description">SJTU | PhD Candidate</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jsmech@sjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/shuo0571" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/uploads/wechat-QR.jpg" target="_blank" title="微信公众号">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>微信公众号</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/uploads/wechat-QR2.jpg" target="_blank" title="个人微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>个人微信</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文档图像的正确表示方式"><span class="nav-number">1.</span> <span class="nav-text">文档图像的正确表示方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#★-摘要"><span class="nav-number">1.1.</span> <span class="nav-text">★ 摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-引言"><span class="nav-number">1.2.</span> <span class="nav-text">★ 引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-相关工作"><span class="nav-number">1.3.</span> <span class="nav-text">★ 相关工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-文档图像特征表示"><span class="nav-number">1.4.</span> <span class="nav-text">★ 文档图像特征表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-Run-Length"><span class="nav-number">1.4.1.</span> <span class="nav-text">☆ Run Length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-Fisher-Vector"><span class="nav-number">1.4.2.</span> <span class="nav-text">☆ Fisher Vector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-卷积神经网络"><span class="nav-number">1.4.3.</span> <span class="nav-text">☆ 卷积神经网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-混合描述符"><span class="nav-number">1.4.4.</span> <span class="nav-text">☆ 混合描述符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-训练"><span class="nav-number">1.5.</span> <span class="nav-text">★ 训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-为相同的任务训练"><span class="nav-number">1.5.1.</span> <span class="nav-text">☆ 为相同的任务训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-为不同的任务训练"><span class="nav-number">1.5.2.</span> <span class="nav-text">☆ 为不同的任务训练</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-评估"><span class="nav-number">1.6.</span> <span class="nav-text">★ 评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">☆ 数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-执行细节"><span class="nav-number">1.6.2.</span> <span class="nav-text">☆ 执行细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-实验"><span class="nav-number">1.7.</span> <span class="nav-text">★ 实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-第一部分"><span class="nav-number">1.7.1.</span> <span class="nav-text">☆ 第一部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-第二部分"><span class="nav-number">1.7.2.</span> <span class="nav-text">☆ 第二部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-总结"><span class="nav-number">1.8.</span> <span class="nav-text">★ 总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Shuo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+	<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
