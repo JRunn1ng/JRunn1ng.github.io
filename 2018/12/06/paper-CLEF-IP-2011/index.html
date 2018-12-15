@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="patent," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CLEF-IP 2011竞赛：知识产权领域的检索 Piroi F, Lupu M, Hanbury A, et al. CLEF-IP 2011: Retrieval in the Intellectual Property Domain[C]//CLEF (notebook papers/labs/workshop). 2011. 竞赛主页：http://www.ifs.tuwien.ac.at">
+<meta name="keywords" content="patent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记 | CLEF-IP 2011竞赛">
+<meta property="og:url" content="jrunning.cn/2018/12/06/paper-CLEF-IP-2011/index.html">
+<meta property="og:site_name" content="保持动力">
+<meta property="og:description" content="CLEF-IP 2011竞赛：知识产权领域的检索 Piroi F, Lupu M, Hanbury A, et al. CLEF-IP 2011: Retrieval in the Intellectual Property Domain[C]//CLEF (notebook papers/labs/workshop). 2011. 竞赛主页：http://www.ifs.tuwien.ac.at">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/vepnl85ayt08lfze7lvbzv0h/image_1cu1nbce0h091t7b1m0u16lj19iu68.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/1i9dsppidhiaeszuuoieyg74/image_1cu1ne07p1f121487rm4m0ubqt6l.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/fk9yn70q75am5fbpy8mwruvp/image_1cu1ju99vobpsa91fhe1car14epp.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/9dmvs7hyc2p2avlr54wvnyn0/image_1cu1jvq2v82lnsqe8hhcrmic16.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/exo98l5volbwtuwq795e63bb/image_1cu1kcdcm1d43phf1suq1hhlcia5e.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/ox81vvoi5sfegs2jj8qqr2wx/image_1cu1k18vd1l15ige9mfmqh1cv82d.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/dob11lizxbuv8csl4e5lwy9d/image_1cu1kh4b71f7e18lt5cu1ala1lnt5r.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/pjas5r8wgvcz6sj2mbv5ujou/image_1cu1k1lld7o6h1cmrhgqf17oq2q.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/ndr68o1yn3hov4n4k5anllt1/image_1cu1k60iq1a9ss5ihob19tqhv53k.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/6ogtiuo25qi876w596tqrsrl/image_1cu1k0o45nhld1teh03kd1nkj20.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/h3gtlntyu670c9c6pgthn6ga/image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png">
+<meta property="og:updated_time" content="2018-12-15T03:31:45.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="论文笔记 | CLEF-IP 2011竞赛">
+<meta name="twitter:description" content="CLEF-IP 2011竞赛：知识产权领域的检索 Piroi F, Lupu M, Hanbury A, et al. CLEF-IP 2011: Retrieval in the Intellectual Property Domain[C]//CLEF (notebook papers/labs/workshop). 2011. 竞赛主页：http://www.ifs.tuwien.ac.at">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangshuo1016/vepnl85ayt08lfze7lvbzv0h/image_1cu1nbce0h091t7b1m0u16lj19iu68.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="jrunning.cn/2018/12/06/paper-CLEF-IP-2011/"/>
+
+
+
+
+
+  <title>论文笔记 | CLEF-IP 2011竞赛 | 保持动力</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">保持动力</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">寻找稳固的自我</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-study">
+          <a href="/study/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            论文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nav">
+          <a href="/nav/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br />
+            
+            导航
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/06/paper-CLEF-IP-2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">论文笔记 | CLEF-IP 2011竞赛</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T21:53:00+08:00">
+                2018-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper/" itemprop="url" rel="index">
+                    <span itemprop="name">paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="CLEF-IP-2011竞赛：知识产权领域的检索"><a href="#CLEF-IP-2011竞赛：知识产权领域的检索" class="headerlink" title="CLEF-IP 2011竞赛：知识产权领域的检索"></a><strong>CLEF-IP 2011竞赛：知识产权领域的检索</strong></h2><blockquote>
+<p>Piroi F, Lupu M, Hanbury A, et al. <strong>CLEF-IP 2011: Retrieval in the Intellectual Property Domain</strong>[C]//CLEF (notebook papers/labs/workshop). 2011.</p>
+<p>竞赛主页：<a href="http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml" target="_blank" rel="noopener">http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml</a></p>
+</blockquote>
+<h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p><a href="http://www.ifs.tuwien.ac.at/~clef-ip/download-central.shtml" target="_blank" rel="noopener">CLEF-IP</a>比赛与<a href="https://trec.nist.gov/tracks.html" target="_blank" rel="noopener">TREC</a>比赛，都是由作者所在机构举办的。（<a href="http://blog.sciencenet.cn/blog-1497049-1086605.html" target="_blank" rel="noopener">马舒天：2017TREC文本检索会议参会感想</a>）CLEF比赛是从2009年开始的，聚焦专利检索，为研究者提供了大量的干净数据，数据集包括欧洲专利局的专利，语言涵盖英语、德语、法语。2009年的竞赛中，主要是针对Prior Art；2010年，数据集进一步扩大，并且增加了专利分类的任务，目标是将专利自动地分配到正确的IPC类别中；<strong>2011年，增加了关于专利图像的任务，利用专利图像进行已有技术检索与分类</strong>。</p>
+<p><a href="https://en.wikipedia.org/wiki/Prior_art" target="_blank" rel="noopener"><strong>Prior Art</strong></a>，在中文中可以翻译为已有技术。在知识产权领域，一项专利在授权前，都要经过审查员的严格检索，确保没有先前的相似实例公开，这种检索叫Prior Art Search。维基百科中，Prior Art又称state of the art(SOTA)或background art，SOTA我们就比较熟悉了，经常用于表示研究中目前达到的最好性能。</p>
+<p>专利中的图像包括人手绘制的、电脑绘制的，或是两者混合。可能包括了文本，通常是黑白的。当专利专家在浏览一系列检索结果时，他可以根据图像快速地过滤掉许多不相关的专利，需要精读的专利数量就会得到大幅度的减少。</p>
+<h3 id="★-相关数据收集"><a href="#★-相关数据收集" class="headerlink" title="★ 相关数据收集"></a><strong>★ 相关数据收集</strong></h3><p>专利的文档都是以XML文件的格式存储的，这个文档可能是：Application Document（申请文档），Search Report（搜索报告）或Granted Patent Document（授权文档）。分别用A1，A3，B1前缀加以区分。CLEF的专利文档XML数据，都是从<a href="http://www.ifs.tuwien.ac.at/imp/marec.shtml" target="_blank" rel="noopener">MAREC数据库</a>中摘取的，该数据库包含有19,386,697个专利文档，都是以XML格式存储的，总大小达到了621GB（现在好像无法下载了）。XML文件通常包含的文本信息有：著录资料，摘要，描述，权利要求。</p>
+<p>专利文档方面，共有350万左右XML文件。图像方面，针对其中三个IPC子类的所有47000个专利（截止到2002年），截取图像共291,566个tiff格式的文件，共5.4GB。下面两张表是选择的三个IPC子类。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/vepnl85ayt08lfze7lvbzv0h/image_1cu1nbce0h091t7b1m0u16lj19iu68.png" alt="image_1cu1nbce0h091t7b1m0u16lj19iu68.png-18.8kB"></p>
+<h3 id="★-竞赛概述"><a href="#★-竞赛概述" class="headerlink" title="★ 竞赛概述"></a><strong>★ 竞赛概述</strong></h3><ul>
+<li>Prior Art Candidates Search(PAC)，已有技术专利检索</li>
+<li>Patent Classication(CLS1)，专利分类到subclass</li>
+<li>Refined Patent Classication(CLS2)，专利分类到group/subgroup</li>
+<li>Patent Image-based Prior Art Search(IMG-PAC)，使用图片检索已有技术专利 </li>
+<li>Patent Image-based Classication(IMG-CLS)，专利图片分类</li>
+</ul>
+<h4 id="☆-IMG-CLS"><a href="#☆-IMG-CLS" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p>目标自动地对专利的图像进行分类。在任务中，图像被单独截取出来，而不是整个页面直接拿来用。分类共包括9个类别：abstract drawing, graph, flowchart, gene sequence, program listing, symbol, chemical structure, table and mathematics。每个类别包括了300-6000张数量不等的图片，用于训练，训练不得用额外的数据。得到训练好的分类器后，再用1000张随机图片进行测试。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/1i9dsppidhiaeszuuoieyg74/image_1cu1ne07p1f121487rm4m0ubqt6l.png" alt="image_1cu1ne07p1f121487rm4m0ubqt6l.png-26kB"></p>
+<h3 id="★-相关性评估"><a href="#★-相关性评估" class="headerlink" title="★ 相关性评估"></a><strong>★ 相关性评估</strong></h3><p>PAC与IMG-PAC是通过专利的引用来评估相关性的，这些被引用的专利都已经提前保存在数据集中。然而平均每个专利的引用数量低（低于4个），所以我们需要扩大一些相关文档的范围，把引用的引用也囊括其中。引用的提取过程，在2009年的竞赛中已经详细描述，可以参考文献：</p>
+<blockquote>
+<p>Roda G, Tait J, Piroi F, et al. <strong>CLEF-IP 2009: retrieval experiments in the Intellectual Property domain</strong>[C]//Workshop of the Cross-Language Evaluation Forum for European Languages. Springer, Berlin, Heidelberg, 2009: 385-409.</p>
+</blockquote>
+<p>对于CLS1和CLS2，由于类别是准确知道的，所以直接将分类编码提取就可以进行评估。而对于IMG-CLS，所有的评估都是手工标注完成的。</p>
+<h3 id="★-参赛方案"><a href="#★-参赛方案" class="headerlink" title="★ 参赛方案"></a><strong>★ 参赛方案</strong></h3><p>一共有12支队伍参加了比赛，但是对于涉及专利图像的比赛，分别只有1支和4支队伍参加。以下提炼部分队伍的关键技术。</p>
+<p>队伍1，参加PAC：使用Xtrieval框架（为许多检索引擎提供接口），在预处理中针对不同的专利类别创建停用词列表，每种语言的专利分别处理；对比了使用长句和短句的检索，发现长句效果更好。</p>
+<p><strong>※队伍2</strong>，参加PAC：使用Lemur工具集，将其它语言都翻译成英语；应用了一种短语抽取技术来创建检索式，接着将得到的专利转换成基于IPC分类的文档向量来检查相关性。</p>
+<p>队伍3，参加IMG-CLS：使用了图像的LBP，MPEG-7特征以及通过OCR得到的文本，利用SVM进行分类。实验了单一特征与多种特征的融合，最理想的方案是只使用LBP特征。</p>
+<p>队伍4，参加PAC：使用PatTextTiling技术（基于TextTiling算法），对专利进行总结。对专利文档进行停用词过滤和词干还原后，使用Terrier进行编码。</p>
+<p><strong>※队伍5</strong>，参加CLS：使用Linguistic Classification System来配置三种分类器：Navie Bayes，Winnow和SVM。在训练阶段，只使用的英语专利的摘要和描述（前400词），通过<a href="http://www.phasar.cs.ru.nl/aboutTM4IP.pdf" target="_blank" rel="noopener">AEGIR依存分析器</a>将本文转化为三元组。</p>
+<p>队伍6，参加PAC：使用bag-of-words（词袋）的方法，来挖掘句法及语义信息。只使用了英语专利的标题、摘要、权利要求以及描述。检索是使用Spinque框架完成的，它提供用户一个可视化接口来完成检索策略的定义。</p>
+<p>队伍7，参加PAC和CLS：从文档中挑选出赋予不同权重的关键词。然后进行词性标注和各种垃圾词的过滤，考虑剩下文本的词语共现情况。其它语言都通过MyMemory翻译服务转换成英语。整个任务是基于Lucene的，它是一个基于Java的接口。分类任务用的是KNN算法。</p>
+<p><strong>※队伍8</strong>，参加了IMG-PAC和IMG-CLS：使用Fisher Vector来表示图像，通过线性分类器完成分类。为了扩大数据集，对原有训练集内的图像进行了旋转。对于专利文本的检索，不同部分的信息被赋予不同的权重。相似度是通过IPC类别以及引用图谱来融合计算的。由于利用图像信息检索的性能较差，所以将其融合至只利用文本信息的检索中，融合后的性能好于只使用文本信息检索。</p>
+<h3 id="★-评价指标"><a href="#★-评价指标" class="headerlink" title="★ 评价指标"></a><strong>★ 评价指标</strong></h3><p>对于PAC任务，评价指标包括：</p>
+<ul>
+<li>Precision@1, Precision@5, Precision@10, Precision@20, Precision@50, Precision@100</li>
+<li>Recall@1, Recall@5, Recall@10, Recall@20, Recall@50, Recall@100</li>
+<li>MAP</li>
+<li>NDCG</li>
+</ul>
+<p>对于CLS任务，评价指标包括：</p>
+<ul>
+<li>Precision@1, Precision@5</li>
+<li>Recall@1, Recall@5</li>
+<li>F1 at 1 and 5.</li>
+</ul>
+<p><strong>Precision：</strong>准确率，是返回的结果中相关文档所占的比例，@5表示检索5个文档。<br><strong>Recall：</strong>召回率，是返回的相关文档占所有相关文档的比例。<br><strong>F1：</strong>兼顾准确率和召回率的综合指标。<br><strong>MAP(Mean Average Precision)：</strong>单个主题的平均准确率，是每篇相关文档检索出后的准确率的平均值。<br><strong>NDCG(Normalized Discounted Cumulative Gain)：</strong>归一化折损累计增益，用于度量排序质量。</p>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/u010138758/article/details/69936041/" target="_blank" rel="noopener">CSDN | 信息检索中常用的评价指标</a></p>
+</blockquote>
+<p>对于IMG-CLS任务，先画出<a href="https://www.plob.org/article/12476.html" target="_blank" rel="noopener">ROC曲线</a>，然后计算<a href="https://blog.csdn.net/zjm750617105/article/details/52558779" target="_blank" rel="noopener">EER（Equal Error Rate，等错误率）</a>和<a href="https://www.plob.org/article/12476.html" target="_blank" rel="noopener">AUC（Area Under Curve，曲线下面积）</a>。再计算每个类别的<a href="https://www.cnblogs.com/maybe2030/p/5375175.html" target="_blank" rel="noopener">TPR（True Positive Rate，真阳率）</a>及<a href="https://www.jianshu.com/p/27228ad417d4" target="_blank" rel="noopener">混淆矩阵</a>。</p>
+<h3 id="★-最终结果"><a href="#★-最终结果" class="headerlink" title="★ 最终结果"></a><strong>★ 最终结果</strong></h3><p>针对五个比赛，对比了不同队伍在各个指标上的表现，横坐标均为队伍每一轮提交测试得到的性能。</p>
+<h4 id="☆-PAC"><a href="#☆-PAC" class="headerlink" title="☆ PAC"></a><strong>☆ PAC</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/fk9yn70q75am5fbpy8mwruvp/image_1cu1ju99vobpsa91fhe1car14epp.png" alt="image_1cu1ju99vobpsa91fhe1car14epp.png-44.4kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/9dmvs7hyc2p2avlr54wvnyn0/image_1cu1jvq2v82lnsqe8hhcrmic16.png" alt="image_1cu1jvq2v82lnsqe8hhcrmic16.png-50.2kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/exo98l5volbwtuwq795e63bb/image_1cu1kcdcm1d43phf1suq1hhlcia5e.png" alt="image_1cu1kcdcm1d43phf1suq1hhlcia5e.png-56.7kB"></p>
+<p><strong>结论：</strong>准确率普遍都不太高，@1大约0.5%，@100大约2%。召回率相对准确率而言较高，@1大约40%，@100大约25%。一次检索较多的数量能增加准确率，降低召回率。语言对于准确性有一定的影响，英语准确率较高。<strong>上文提到的队伍2和队伍5表现优秀。</strong></p>
+<h4 id="☆-CLS1"><a href="#☆-CLS1" class="headerlink" title="☆ CLS1"></a><strong>☆ CLS1</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/ox81vvoi5sfegs2jj8qqr2wx/image_1cu1k18vd1l15ige9mfmqh1cv82d.png" alt="image_1cu1k18vd1l15ige9mfmqh1cv82d.png-36.9kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/dob11lizxbuv8csl4e5lwy9d/image_1cu1kh4b71f7e18lt5cu1ala1lnt5r.png" alt="image_1cu1kh4b71f7e18lt5cu1ala1lnt5r.png-30.5kB"></p>
+<h4 id="☆-CLS2"><a href="#☆-CLS2" class="headerlink" title="☆ CLS2"></a><strong>☆ CLS2</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/pjas5r8wgvcz6sj2mbv5ujou/image_1cu1k1lld7o6h1cmrhgqf17oq2q.png" alt="image_1cu1k1lld7o6h1cmrhgqf17oq2q.png-33.1kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/ndr68o1yn3hov4n4k5anllt1/image_1cu1k60iq1a9ss5ihob19tqhv53k.png" alt="image_1cu1k60iq1a9ss5ihob19tqhv53k.png-30.5kB"></p>
+<h4 id="☆-IMG-PAC"><a href="#☆-IMG-PAC" class="headerlink" title="☆ IMG-PAC"></a><strong>☆ IMG-PAC</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/6ogtiuo25qi876w596tqrsrl/image_1cu1k0o45nhld1teh03kd1nkj20.png" alt="image_1cu1k0o45nhld1teh03kd1nkj20.png-30.1kB"></p>
+<p><strong>结论：</strong>召回率很高，达到95%，准确率在10%左右。</p>
+<h4 id="☆-IMG-CLS-1"><a href="#☆-IMG-CLS-1" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/h3gtlntyu670c9c6pgthn6ga/image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png" alt="image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png-51.4kB"></p>
+<p><strong>结论：队伍8表现更优秀，方法值得借鉴。</strong></p>
+<p><strong>自己的收获：</strong></p>
+<ol>
+<li>对于整个CLEF-IP竞赛有了完整的认识。</li>
+<li>学习了信息检索的相关指标。</li>
+<li>后续还将继续探索专利图像的运用，队伍8的方法值得学习。</li>
+<li>由于IMG-CLS数据集量大且质量高，研究这个细分方向的学者应该都会引用这份工作，后续可以在引用这份工作的论文中继续寻找优秀读物。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/patent/" rel="tag"># patent</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/04/paper-document image classification/" rel="next" title="论文笔记 | 文档图像分类：聚焦专利">
+                <i class="fa fa-chevron-left"></i> 论文笔记 | 文档图像分类：聚焦专利
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/11/paper-Detecting-figures-and/" rel="prev" title="论文笔记 | 专利图像检测：基于竞赛">
+                论文笔记 | 专利图像检测：基于竞赛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Jiang Shuo" />
+            
+              <p class="site-author-name" itemprop="name">Jiang Shuo</p>
+              <p class="site-description motion-element" itemprop="description">SJTU | PhD Candidate</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jsmech@sjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/shuo0571" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/uploads/wechat-QR.jpg" target="_blank" title="微信公众号">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>微信公众号</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/uploads/wechat-QR2.jpg" target="_blank" title="个人微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>个人微信</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CLEF-IP-2011竞赛：知识产权领域的检索"><span class="nav-number">1.</span> <span class="nav-text">CLEF-IP 2011竞赛：知识产权领域的检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#★-引言"><span class="nav-number">1.1.</span> <span class="nav-text">★ 引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-相关数据收集"><span class="nav-number">1.2.</span> <span class="nav-text">★ 相关数据收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-竞赛概述"><span class="nav-number">1.3.</span> <span class="nav-text">★ 竞赛概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-IMG-CLS"><span class="nav-number">1.3.1.</span> <span class="nav-text">☆ IMG-CLS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-相关性评估"><span class="nav-number">1.4.</span> <span class="nav-text">★ 相关性评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-参赛方案"><span class="nav-number">1.5.</span> <span class="nav-text">★ 参赛方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-评价指标"><span class="nav-number">1.6.</span> <span class="nav-text">★ 评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#★-最终结果"><span class="nav-number">1.7.</span> <span class="nav-text">★ 最终结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-PAC"><span class="nav-number">1.7.1.</span> <span class="nav-text">☆ PAC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-CLS1"><span class="nav-number">1.7.2.</span> <span class="nav-text">☆ CLS1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-CLS2"><span class="nav-number">1.7.3.</span> <span class="nav-text">☆ CLS2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-IMG-PAC"><span class="nav-number">1.7.4.</span> <span class="nav-text">☆ IMG-PAC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆-IMG-CLS-1"><span class="nav-number">1.7.5.</span> <span class="nav-text">☆ IMG-CLS</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Shuo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+	<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
