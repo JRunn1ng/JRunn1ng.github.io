@@ -349,13 +349,13 @@
             <h2 id="Spp-Net"><a href="#Spp-Net" class="headerlink" title="Spp-Net"></a><strong>Spp-Net</strong></h2><blockquote>
 <p>He K, Zhang X, Ren S, et al. <strong>Spatial pyramid pooling in deep convolutional networks for visual recognition</strong>[C]//European conference on computer vision. Springer, Cham, 2014: 346-361.</p>
 </blockquote>
-<h3 id="★-为什么要用Spp-Net？"><a href="#★-为什么要用Spp-Net？" class="headerlink" title="★ 为什么要用Spp-Net？"></a><strong>★ 为什么要用Spp-Net？</strong></h3><p>在此之前，所有的神经网络都是需要输入固定尺寸的图片，比如224<em>224(ImageNet)、32</em>32(LenNet)等。这样对于我们希望检测各种大小的图片的时候，需要经过crop，或者warp等一系列操作，这都在一定程度上导致图片信息的丢失和变形，限制了识别精确度。</p>
+<h3 id="★-为什么要用Spp-Net？"><a href="#★-为什么要用Spp-Net？" class="headerlink" title="★ 为什么要用Spp-Net？"></a><strong>★ 为什么要用Spp-Net？</strong></h3><p>在此之前，所有的神经网络都是需要输入固定尺寸的图片，比如224x224(ImageNet)、32x32(LenNet)等。这样对于我们希望检测各种大小的图片的时候，需要经过crop，或者warp等一系列操作，这都在一定程度上导致图片信息的丢失和变形，限制了识别精确度。</p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/7maeogbf266fzfv3guzo6otp/image_1cuspfhjf18tkgqc1muu71r9i9.png" alt="image_1cuspfhjf18tkgqc1muu71r9i9.png-57.9kB"></p>
 <p>而Spp-Net中的金字塔池化层可以解决这个问题，它可以允许任意尺寸图片的输入。</p>
 <h3 id="★-为什么要输入固定尺寸的图片？"><a href="#★-为什么要输入固定尺寸的图片？" class="headerlink" title="★ 为什么要输入固定尺寸的图片？"></a><strong>★ 为什么要输入固定尺寸的图片？</strong></h3><p>CNN主要包括两部分：卷积层和全连接层。实际上，卷积层不需要固定尺寸的图像，可以生成任意尺寸的特征图，而全连接层需要输入固定尺寸。因为它要把输入的所有像素点连接起来,需要指定输入层神经元个数和输出层神经元个数，所以需要规定输入的feature的大小。<strong>因此，固定尺寸的约束只来自于全连接层，而全连接层处于网络比较深的层级。</strong> </p>
 <h3 id="★-Spp-Net的结构"><a href="#★-Spp-Net的结构" class="headerlink" title="★ Spp-Net的结构"></a><strong>★ Spp-Net的结构</strong></h3><p><img src="http://static.zybuluo.com/jiangshuo1016/e32kwhmeyq8b1d8urebssiqc/image_1cusqe3ti5s4cs411su120f1v1em.png" alt="image_1cusqe3ti5s4cs411su120f1v1em.png-74kB"></p>
 <p><img src="http://static.zybuluo.com/jiangshuo1016/lnjoas5cqf9cbbb4e74zxyuw/image_1cusqfefhhe2c3ms2inv8jp13.png" alt="image_1cusqfefhhe2c3ms2inv8jp13.png-49.6kB"></p>
-<p>核心就在于全连接前增加了金字塔池化层，它与之前Run-Length及Fisher-Vector提到的金字塔方法很类似。黑色图片代表卷积之后的特征图，接着我们以不同大小的块来提取特征，分别是4<em>4，2</em>2，1*1，将这三张网格放到下面这张特征图上，就可以得到16+4+1=21种不同的块(Spatial bins)，我们从这21个块中，每个块提取出一个特征，这样刚好就是我们要提取的21维特征向量。这种以不同的大小格子的组合方式来池化的过程就是空间金字塔池化（SPP）。比如，要进行空间金字塔最大池化，其实就是从这21个图片块中，分别计算每个块的最大值，从而得到一个输出单元，最终得到一个21维特征的输出。这个向量维度固定之后，后面的全链接层就可以固定了，因为神经元个数固定下来了，就是这个向量维度。</p>
+<p>核心就在于全连接前增加了金字塔池化层，它与之前Run-Length及Fisher-Vector提到的金字塔方法很类似。黑色图片代表卷积之后的特征图，接着我们以不同大小的块来提取特征，分别是4x4，2x2，1x1，将这三张网格放到下面这张特征图上，就可以得到16+4+1=21种不同的块(Spatial bins)，我们从这21个块中，每个块提取出一个特征，这样刚好就是我们要提取的21维特征向量。这种以不同的大小格子的组合方式来池化的过程就是空间金字塔池化(SPP)。比如，要进行空间金字塔最大池化，其实就是从这21个图片块中，分别计算每个块的最大值，从而得到一个输出单元，最终得到一个21维特征的输出。这个向量维度固定之后，后面的全链接层就可以固定了，因为神经元个数固定下来了，就是这个向量维度。</p>
 <h3 id="★-实验效果"><a href="#★-实验效果" class="headerlink" title="★ 实验效果"></a><strong>★ 实验效果</strong></h3><ol>
 <li>spp-pooling层能提升准确率。</li>
 <li>multi-size training能进一步提升准确率。</li>
