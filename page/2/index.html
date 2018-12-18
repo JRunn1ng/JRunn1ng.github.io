@@ -253,6 +253,218 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/06/paper-CLEF-IP-2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/06/paper-CLEF-IP-2011/" itemprop="url">论文笔记 | CLEF-IP 2011竞赛</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T21:53:00+08:00">
+                2018-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper/" itemprop="url" rel="index">
+                    <span itemprop="name">paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="CLEF-IP-2011竞赛：知识产权领域的检索"><a href="#CLEF-IP-2011竞赛：知识产权领域的检索" class="headerlink" title="CLEF-IP 2011竞赛：知识产权领域的检索"></a><strong>CLEF-IP 2011竞赛：知识产权领域的检索</strong></h2><blockquote>
+<p>Piroi F, Lupu M, Hanbury A, et al. <strong>CLEF-IP 2011: Retrieval in the Intellectual Property Domain</strong>[C]//CLEF (notebook papers/labs/workshop). 2011.</p>
+<p>竞赛主页：<a href="http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml" target="_blank" rel="noopener">http://www.ifs.tuwien.ac.at/~clef-ip/download/2011/index.shtml</a></p>
+</blockquote>
+<h3 id="★-引言"><a href="#★-引言" class="headerlink" title="★ 引言"></a><strong>★ 引言</strong></h3><p><a href="http://www.ifs.tuwien.ac.at/~clef-ip/download-central.shtml" target="_blank" rel="noopener">CLEF-IP</a>比赛与<a href="https://trec.nist.gov/tracks.html" target="_blank" rel="noopener">TREC</a>比赛，都是由作者所在机构举办的。（<a href="http://blog.sciencenet.cn/blog-1497049-1086605.html" target="_blank" rel="noopener">马舒天：2017TREC文本检索会议参会感想</a>）CLEF比赛是从2009年开始的，聚焦专利检索，为研究者提供了大量的干净数据，数据集包括欧洲专利局的专利，语言涵盖英语、德语、法语。2009年的竞赛中，主要是针对Prior Art；2010年，数据集进一步扩大，并且增加了专利分类的任务，目标是将专利自动地分配到正确的IPC类别中；<strong>2011年，增加了关于专利图像的任务，利用专利图像进行已有技术检索与分类</strong>。</p>
+<p><a href="https://en.wikipedia.org/wiki/Prior_art" target="_blank" rel="noopener"><strong>Prior Art</strong></a>，在中文中可以翻译为已有技术。在知识产权领域，一项专利在授权前，都要经过审查员的严格检索，确保没有先前的相似实例公开，这种检索叫Prior Art Search。维基百科中，Prior Art又称state of the art(SOTA)或background art，SOTA我们就比较熟悉了，经常用于表示研究中目前达到的最好性能。</p>
+<p>专利中的图像包括人手绘制的、电脑绘制的，或是两者混合。可能包括了文本，通常是黑白的。当专利专家在浏览一系列检索结果时，他可以根据图像快速地过滤掉许多不相关的专利，需要精读的专利数量就会得到大幅度的减少。</p>
+<h3 id="★-相关数据收集"><a href="#★-相关数据收集" class="headerlink" title="★ 相关数据收集"></a><strong>★ 相关数据收集</strong></h3><p>专利的文档都是以XML文件的格式存储的，这个文档可能是：Application Document（申请文档），Search Report（搜索报告）或Granted Patent Document（授权文档）。分别用A1，A3，B1前缀加以区分。CLEF的专利文档XML数据，都是从<a href="http://www.ifs.tuwien.ac.at/imp/marec.shtml" target="_blank" rel="noopener">MAREC数据库</a>中摘取的，该数据库包含有19,386,697个专利文档，都是以XML格式存储的，总大小达到了621GB（现在好像无法下载了）。XML文件通常包含的文本信息有：著录资料，摘要，描述，权利要求。</p>
+<p>专利文档方面，共有350万左右XML文件。图像方面，针对其中三个IPC子类的所有47000个专利（截止到2002年），截取图像共291,566个tiff格式的文件，共5.4GB。下面两张表是选择的三个IPC子类。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/vepnl85ayt08lfze7lvbzv0h/image_1cu1nbce0h091t7b1m0u16lj19iu68.png" alt="image_1cu1nbce0h091t7b1m0u16lj19iu68.png-18.8kB"></p>
+<h3 id="★-竞赛概述"><a href="#★-竞赛概述" class="headerlink" title="★ 竞赛概述"></a><strong>★ 竞赛概述</strong></h3><ul>
+<li>Prior Art Candidates Search(PAC)，已有技术专利检索</li>
+<li>Patent Classication(CLS1)，专利分类到subclass</li>
+<li>Refined Patent Classication(CLS2)，专利分类到group/subgroup</li>
+<li>Patent Image-based Prior Art Search(IMG-PAC)，使用图片检索已有技术专利 </li>
+<li>Patent Image-based Classication(IMG-CLS)，专利图片分类</li>
+</ul>
+<h4 id="☆-IMG-CLS"><a href="#☆-IMG-CLS" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p>目标自动地对专利的图像进行分类。在任务中，图像被单独截取出来，而不是整个页面直接拿来用。分类共包括9个类别：abstract drawing, graph, flowchart, gene sequence, program listing, symbol, chemical structure, table and mathematics。每个类别包括了300-6000张数量不等的图片，用于训练，训练不得用额外的数据。得到训练好的分类器后，再用1000张随机图片进行测试。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/1i9dsppidhiaeszuuoieyg74/image_1cu1ne07p1f121487rm4m0ubqt6l.png" alt="image_1cu1ne07p1f121487rm4m0ubqt6l.png-26kB"></p>
+<h3 id="★-相关性评估"><a href="#★-相关性评估" class="headerlink" title="★ 相关性评估"></a><strong>★ 相关性评估</strong></h3><p>PAC与IMG-PAC是通过专利的引用来评估相关性的，这些被引用的专利都已经提前保存在数据集中。然而平均每个专利的引用数量低（低于4个），所以我们需要扩大一些相关文档的范围，把引用的引用也囊括其中。引用的提取过程，在2009年的竞赛中已经详细描述，可以参考文献：</p>
+<blockquote>
+<p>Roda G, Tait J, Piroi F, et al. <strong>CLEF-IP 2009: retrieval experiments in the Intellectual Property domain</strong>[C]//Workshop of the Cross-Language Evaluation Forum for European Languages. Springer, Berlin, Heidelberg, 2009: 385-409.</p>
+</blockquote>
+<p>对于CLS1和CLS2，由于类别是准确知道的，所以直接将分类编码提取就可以进行评估。而对于IMG-CLS，所有的评估都是手工标注完成的。</p>
+<h3 id="★-参赛方案"><a href="#★-参赛方案" class="headerlink" title="★ 参赛方案"></a><strong>★ 参赛方案</strong></h3><p>一共有12支队伍参加了比赛，但是对于涉及专利图像的比赛，分别只有1支和4支队伍参加。以下提炼部分队伍的关键技术。</p>
+<p>队伍1，参加PAC：使用Xtrieval框架（为许多检索引擎提供接口），在预处理中针对不同的专利类别创建停用词列表，每种语言的专利分别处理；对比了使用长句和短句的检索，发现长句效果更好。</p>
+<p><strong>※队伍2</strong>，参加PAC：使用Lemur工具集，将其它语言都翻译成英语；应用了一种短语抽取技术来创建检索式，接着将得到的专利转换成基于IPC分类的文档向量来检查相关性。</p>
+<p>队伍3，参加IMG-CLS：使用了图像的LBP，MPEG-7特征以及通过OCR得到的文本，利用SVM进行分类。实验了单一特征与多种特征的融合，最理想的方案是只使用LBP特征。</p>
+<p>队伍4，参加PAC：使用PatTextTiling技术（基于TextTiling算法），对专利进行总结。对专利文档进行停用词过滤和词干还原后，使用Terrier进行编码。</p>
+<p><strong>※队伍5</strong>，参加CLS：使用Linguistic Classification System来配置三种分类器：Navie Bayes，Winnow和SVM。在训练阶段，只使用的英语专利的摘要和描述（前400词），通过<a href="http://www.phasar.cs.ru.nl/aboutTM4IP.pdf" target="_blank" rel="noopener">AEGIR依存分析器</a>将本文转化为三元组。</p>
+<p>队伍6，参加PAC：使用bag-of-words（词袋）的方法，来挖掘句法及语义信息。只使用了英语专利的标题、摘要、权利要求以及描述。检索是使用Spinque框架完成的，它提供用户一个可视化接口来完成检索策略的定义。</p>
+<p>队伍7，参加PAC和CLS：从文档中挑选出赋予不同权重的关键词。然后进行词性标注和各种垃圾词的过滤，考虑剩下文本的词语共现情况。其它语言都通过MyMemory翻译服务转换成英语。整个任务是基于Lucene的，它是一个基于Java的接口。分类任务用的是KNN算法。</p>
+<p><strong>※队伍8</strong>，参加了IMG-PAC和IMG-CLS：使用Fisher Vector来表示图像，通过线性分类器完成分类。为了扩大数据集，对原有训练集内的图像进行了旋转。对于专利文本的检索，不同部分的信息被赋予不同的权重。相似度是通过IPC类别以及引用图谱来融合计算的。由于利用图像信息检索的性能较差，所以将其融合至只利用文本信息的检索中，融合后的性能好于只使用文本信息检索。</p>
+<h3 id="★-评价指标"><a href="#★-评价指标" class="headerlink" title="★ 评价指标"></a><strong>★ 评价指标</strong></h3><p>对于PAC任务，评价指标包括：</p>
+<ul>
+<li>Precision@1, Precision@5, Precision@10, Precision@20, Precision@50, Precision@100</li>
+<li>Recall@1, Recall@5, Recall@10, Recall@20, Recall@50, Recall@100</li>
+<li>MAP</li>
+<li>NDCG</li>
+</ul>
+<p>对于CLS任务，评价指标包括：</p>
+<ul>
+<li>Precision@1, Precision@5</li>
+<li>Recall@1, Recall@5</li>
+<li>F1 at 1 and 5.</li>
+</ul>
+<p><strong>Precision：</strong>准确率，是返回的结果中相关文档所占的比例，@5表示检索5个文档。<br><strong>Recall：</strong>召回率，是返回的相关文档占所有相关文档的比例。<br><strong>F1：</strong>兼顾准确率和召回率的综合指标。<br><strong>MAP(Mean Average Precision)：</strong>单个主题的平均准确率，是每篇相关文档检索出后的准确率的平均值。<br><strong>NDCG(Normalized Discounted Cumulative Gain)：</strong>归一化折损累计增益，用于度量排序质量。</p>
+<blockquote>
+<p>参考资料：<a href="https://blog.csdn.net/u010138758/article/details/69936041/" target="_blank" rel="noopener">CSDN | 信息检索中常用的评价指标</a></p>
+</blockquote>
+<p>对于IMG-CLS任务，先画出<a href="https://www.plob.org/article/12476.html" target="_blank" rel="noopener">ROC曲线</a>，然后计算<a href="https://blog.csdn.net/zjm750617105/article/details/52558779" target="_blank" rel="noopener">EER（Equal Error Rate，等错误率）</a>和<a href="https://www.plob.org/article/12476.html" target="_blank" rel="noopener">AUC（Area Under Curve，曲线下面积）</a>。再计算每个类别的<a href="https://www.cnblogs.com/maybe2030/p/5375175.html" target="_blank" rel="noopener">TPR（True Positive Rate，真阳率）</a>及<a href="https://www.jianshu.com/p/27228ad417d4" target="_blank" rel="noopener">混淆矩阵</a>。</p>
+<h3 id="★-最终结果"><a href="#★-最终结果" class="headerlink" title="★ 最终结果"></a><strong>★ 最终结果</strong></h3><p>针对五个比赛，对比了不同队伍在各个指标上的表现，横坐标均为队伍每一轮提交测试得到的性能。</p>
+<h4 id="☆-PAC"><a href="#☆-PAC" class="headerlink" title="☆ PAC"></a><strong>☆ PAC</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/fk9yn70q75am5fbpy8mwruvp/image_1cu1ju99vobpsa91fhe1car14epp.png" alt="image_1cu1ju99vobpsa91fhe1car14epp.png-44.4kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/9dmvs7hyc2p2avlr54wvnyn0/image_1cu1jvq2v82lnsqe8hhcrmic16.png" alt="image_1cu1jvq2v82lnsqe8hhcrmic16.png-50.2kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/exo98l5volbwtuwq795e63bb/image_1cu1kcdcm1d43phf1suq1hhlcia5e.png" alt="image_1cu1kcdcm1d43phf1suq1hhlcia5e.png-56.7kB"></p>
+<p><strong>结论：</strong>准确率普遍都不太高，@1大约0.5%，@100大约2%。召回率相对准确率而言较高，@1大约40%，@100大约25%。一次检索较多的数量能增加准确率，降低召回率。语言对于准确性有一定的影响，英语准确率较高。<strong>上文提到的队伍2和队伍5表现优秀。</strong></p>
+<h4 id="☆-CLS1"><a href="#☆-CLS1" class="headerlink" title="☆ CLS1"></a><strong>☆ CLS1</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/ox81vvoi5sfegs2jj8qqr2wx/image_1cu1k18vd1l15ige9mfmqh1cv82d.png" alt="image_1cu1k18vd1l15ige9mfmqh1cv82d.png-36.9kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/dob11lizxbuv8csl4e5lwy9d/image_1cu1kh4b71f7e18lt5cu1ala1lnt5r.png" alt="image_1cu1kh4b71f7e18lt5cu1ala1lnt5r.png-30.5kB"></p>
+<h4 id="☆-CLS2"><a href="#☆-CLS2" class="headerlink" title="☆ CLS2"></a><strong>☆ CLS2</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/pjas5r8wgvcz6sj2mbv5ujou/image_1cu1k1lld7o6h1cmrhgqf17oq2q.png" alt="image_1cu1k1lld7o6h1cmrhgqf17oq2q.png-33.1kB"></p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/ndr68o1yn3hov4n4k5anllt1/image_1cu1k60iq1a9ss5ihob19tqhv53k.png" alt="image_1cu1k60iq1a9ss5ihob19tqhv53k.png-30.5kB"></p>
+<h4 id="☆-IMG-PAC"><a href="#☆-IMG-PAC" class="headerlink" title="☆ IMG-PAC"></a><strong>☆ IMG-PAC</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/6ogtiuo25qi876w596tqrsrl/image_1cu1k0o45nhld1teh03kd1nkj20.png" alt="image_1cu1k0o45nhld1teh03kd1nkj20.png-30.1kB"></p>
+<p><strong>结论：</strong>召回率很高，达到95%，准确率在10%左右。</p>
+<h4 id="☆-IMG-CLS-1"><a href="#☆-IMG-CLS-1" class="headerlink" title="☆ IMG-CLS"></a><strong>☆ IMG-CLS</strong></h4><p><img src="http://static.zybuluo.com/jiangshuo1016/h3gtlntyu670c9c6pgthn6ga/image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png" alt="image_1cu1o4sgdgqr1lq7grn1gir1fgm72.png-51.4kB"></p>
+<p><strong>结论：队伍8表现更优秀，方法值得借鉴。</strong></p>
+<p><strong>自己的收获：</strong></p>
+<ol>
+<li>对于整个CLEF-IP竞赛有了完整的认识。</li>
+<li>学习了信息检索的相关指标。</li>
+<li>后续还将继续探索专利图像的运用，队伍8的方法值得学习。</li>
+<li>由于IMG-CLS数据集量大且质量高，研究这个细分方向的学者应该都会引用这份工作，后续可以在引用这份工作的论文中继续寻找优秀读物。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/04/paper-document-image-classification/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1317,154 +1529,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/06/24/gscqds/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Shuo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="保持动力">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/24/gscqds/" itemprop="url">过山车启动时</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-24T16:32:49+08:00">
-                2018-06-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/旅行/" itemprop="url" rel="index">
-                    <span itemprop="name">旅行</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://static.zybuluo.com/jiangshuo1016/ragec0i3zak54eo1eedckdxp/1.jpg" alt="1.jpg-1393.6kB"></p>
-<p>说来也怪，会会看起来并不像是一个胆大的姑娘，但她确实不怎么怕过山车，诸如上海欢乐谷的刺激项目，她都很少会尖叫。奥兰多环球影城的室外过山车项目有两个：The incredible hulk coaster绿色的浩克过山车，Hollywood rip ride rocket红色的火箭过山车，分别在环球影城的两个园内。本科的时候，我跟会会一起在图书馆看过世界上最刺激的过山车的视频，我印象中就有这个火箭过山车。它们就像是这里的标志，不管在哪，你几乎都能一眼看到它们。</p>
-<p>火箭过山车名之为「火箭」，是因为它在出发前有一个90度的垂直上升通道，这个通道很长，大约到17层楼高然后俯冲下落。我们在通道中上升的很慢——这个过程本应该是不刺激的，但就像是一场重要演讲登台前的那半分钟，像是长跑考试前热身的那半分钟。从机器发动的第一秒开始，就进入了它想带给我们的紧张情绪，连会会都下弯着嘴说她有些害怕，身边陌生的朋友甚至一出发就已经开始喊了。</p>
-<p>在上升的过程中，我注意到前座有一个显示屏幕，在那里可以选择想听的歌曲类别，当我点下rap按钮时，过山车也差不多升到了顶点。火箭过山车有很多的360度回环，而且都有足够的高度，失重与高度带来的恐惧与刺激让我在第一个回环过后，已经感觉大脑一片空白，边上则是不间断的尖叫声，会会也全程都在尖叫。结束出口处，有几台机器可以让你欣赏自己在过山车时的表演：凌乱的头发配上几乎就要哭出来的表情，还真是有点搞笑。</p>
-<p>浩克过山车要比火箭稍长，等待区是浩克的实验室，中间是一个类似生化试验的密闭空间，照着绿光，墙上是各种实验的说明跟介绍，还有各种诸如双螺旋结构的装饰，这些小小的细节让整个空间充满了科技感，让排队的过程不那么乏味。</p>
-<p>同样是出发阶段极具特色，一个斜向上45度的圆筒式封闭通道，一开始缓缓前进，然后突然加速，配上喷出的一点水雾和浩克的一声怒吼，几乎是弹射式地把你送出轨道，仿佛自己被浩克扔了出去一样，那一刹那，心脏狂跳。坐了一遍以后觉得不尽兴，紧接着又二刷了一次，就是为了体验那一刻的感觉。 </p>
-<p>有人认为坐山车好像是花钱买罪受，给自己找不自在。我觉得其实这些刺激的娱乐项目，就是由那几个兴奋的瞬间构成的，在那几个瞬间里，所有感受完全是从自己身体出发，不会考虑外界环境，也不会考虑自己身前身后的烦恼。世界上仿佛就剩下我们，我们这一车人，这是一种纯粹的刺激。现在的我，想起浩克过山车的那一霎那，依然会觉得心跳有些加速——生命也是这一个个瞬间组成的，它们会在不经意间提醒你：生活是如此精彩，还有更多地趣事等着我们去体验。 </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1519,7 +1583,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1530,7 +1594,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -1541,7 +1605,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
