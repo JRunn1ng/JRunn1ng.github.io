@@ -253,6 +253,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/11/paper-Detecting-figures-and/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/11/paper-Detecting-figures-and/" itemprop="url">论文笔记 | 专利图像检测：基于竞赛</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T21:53:00+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/paper/" itemprop="url" rel="index">
+                    <span itemprop="name">paper</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="专利中的图片检测以及零件标签检测"><a href="#专利中的图片检测以及零件标签检测" class="headerlink" title="专利中的图片检测以及零件标签检测"></a><strong>专利中的图片检测以及零件标签检测</strong></h2><blockquote>
+<p>Riedl C, Zanibbi R, Hearst M A, et al. <strong>Detecting figures and part labels in patents: competition-based development of graphics recognition algorithms</strong>[J]. International Journal on Document Analysis and Recognition (IJDAR), 2016, 19(2): 155-172.</p>
+</blockquote>
+<h3 id="★-主要内容"><a href="#★-主要内容" class="headerlink" title="★ 主要内容"></a><strong>★ 主要内容</strong></h3><p>在USPTO的大多数专利文件里，包括了图片页来直接描述发明。这些页面里有图片以及一些数字标记，但是没有文本。所以读者必须要来回扫读文档来找到相关标记的描述。这个过程费时费力，通过自动创建的’tool-tips’与超链接可以改善这一问题。为此，USPTO举办了一场比赛，来检测图片以及部分零件的标记。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/8s9j79u5lrzzsset5klzwwqi/image_1cug34jqcs981m741rs64dda1s9.png" alt="image_1cug34jqcs981m741rs64dda1s9.png-322.8kB"></p>
+<p>一幅图片中，可能包含单张图片，也可能包含多张图片。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/un3n4hgr2hkd5gl8gnkis0d5/Image.png" alt="Image.png-372.5kB"></p>
+<p>图片中的标签可能使用不同的字体甚至手写，整幅图片也可能会旋转。</p>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/f8y0ek9le1l8mx4eephidybt/image_1cug3jrig10pbj7817u61o1r1rdr7b.png" alt="image_1cug3jrig10pbj7817u61o1r1rdr7b.png-197.4kB"></p>
+<p>图名的字体形式是各种各样的，图里的文字也是各种各样的。</p>
+<h3 id="★-竞赛概况"><a href="#★-竞赛概况" class="headerlink" title="★ 竞赛概况"></a><strong>★ 竞赛概况</strong></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>系统输入</th>
+<th>系统输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8位灰度图片（300dpi）</td>
+<td>图片边界方框以及标题文本</td>
+</tr>
+<tr>
+<td>附属的HTML专利文本</td>
+<td>标签边界方框以及文本</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><a href="http://archive.ics.uci.edu/ml/datasets/USPTO+Algorithm+Challenge,+run+by+NASA-Harvard+Tournament+Lab+and+TopCoder++++Problem:+Pat" target="_blank" rel="noopener">竞赛数据集以及前五名源码</a></li>
+<li><a href="https://community.topcoder.com/longcontest/stats/?&amp;sr=1&amp;nr=50&amp;module=ViewOverview&amp;rd=15027" target="_blank" rel="noopener">竞赛结果榜单</a></li>
+</ul>
+<p><strong>获胜队伍的解决方案</strong>是使用C++编程，唯一一只使用了预先提供的HTML文本来验证检测出的图名和零件标签。使用OCR（Optical Character Recognition，光学字符识别）的结果来检测页码数字和页眉，来帮助定位HTML文本中可能的标题和标签。</p>
+<p><strong>自己的收获：</strong></p>
+<ol>
+<li>大致了解从专利中分割图片的工作以及专利中检测标签的工作。</li>
+<li>知道了关于文档图像以及文档分析，有非常多的竞赛围绕开展。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/06/paper-CLEF-IP-2011/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1379,156 +1560,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/06/25/djxdhypj/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Shuo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="保持动力">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/25/djxdhypj/" itemprop="url">对角巷的黄油啤酒</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T16:32:49+08:00">
-                2018-06-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/旅行/" itemprop="url" rel="index">
-                    <span itemprop="name">旅行</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://static.zybuluo.com/jiangshuo1016/gqfikrzom6b3jezfz509x6ji/image_1cl8lqf5h6pkm5nc0u1uab1sv39.png" alt="image_1cl8lqf5h6pkm5nc0u1uab1sv39.png-791.1kB"></p>
-<p>快到对角巷了，此刻还是天气晴朗，我们一路小跑着，因为据说一会儿就要下雷雨了。入口一转弯，便进入了这个灰色系的街区，电影中那些熟悉的场景也出现在我们面前。就像哈利波特初次从壁炉中不小心到达对角巷那样，好像我也是跳进了壁炉的火堆，瞬间传送到了电影中，许许多多来自世界各地的「法师」，穿着魔法袍，拿着魔杖。向前走几步路，就看到了古灵阁顶上的龙，它每隔10分钟会喷一次火。 </p>
-<p>这里有十余处交互场景，只要拥有魔杖，就可以在这些地方施咒，或是从石像中喷水，或是从街灯旁下雨。在奥利凡德的魔杖店里，每次只能进十余人，会有员工带大家进入一个房间，四周都是柜子，摆满了用盒子装好的魔杖。我们进入房间时，老爷爷正在梯子上整理着，缓缓走下来对我们进行欢迎，还让我们凑近点听他介绍，他给我们示范了几款基础的魔法，能让柜子里的魔杖盒自己跳出来。听着听着，还真有些入戏，真真假假便也不去仔细分辨了。对角巷的很多小店，比如预言家日报办公室、韦斯莱的魔法笑话商店、摩金夫人长袍店等，它们不仅仅是纪念品店，都还会伴一些体验式的小项目，也正是这些小细节小项目，才让这里更加受欢迎。</p>
-<p>走累了，在对角巷尽头的酒吧店里，我们买到了波特最爱喝的黄油啤酒。虽然名字叫啤酒，但没有酒精的成分，饮料尝起来甜甜的，应该是用了苏打水，有种碳酸饮料的感觉，最上面盖了一层奶油，但不似奶盖那样腻。黄油啤酒的杯子上印着显眼的霍格沃茨和哈利波特的名字，会会拿着它跟不少地方合了影，很有仪式感。 </p>
-<blockquote>
-<p><em>哈利拿到活点地图去霍格莫德村时第一次喝黄油啤酒时的描述：“这是他喝过的味道最好的饮料，而且这就似乎让他从内而外的暖和起来了”。</em></p>
-</blockquote>
-<p>黄油啤酒确实如哈利所说那样味道很好，我们前前后后一共回到这里买了三杯，它也成了我们多次折回到对角巷的理由。在第一天回去的出租上，司机说可以尝试一下frozen butter beer，他最喜欢用它配威士忌一起。所以我们第二天又回来了，它是把里面的饮料换成了冰沙，但这几分冰爽也确实给黄油啤酒又增加了几分魔法的感觉。 </p>
-<p>我从来都是有些睹物思景的，若要让我选出一个物品去承载这段时光，我很想选黄油啤酒的杯子。但这个杯子它并不好携带，因为是塑料做的——被压容易变形，就算带回去，可能也不好看了。它不唯一，也不珍贵，甚至我都没能把它带回来，但通过回想这个杯子，我会想起那天坐在对角巷酒吧门口的我们，小口地品尝着黄油啤酒，没有着急地去赶路，完全地沉浸在这个魔法世界里，享受着安静的时光。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1583,7 +1614,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1605,7 +1636,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
