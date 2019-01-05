@@ -253,6 +253,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2019/01/05/esl-final-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/05/esl-final-project/" itemprop="url">统计学习与推理-大作业</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-05T11:00:00+08:00">
+                2019-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="任务概述"><a href="#任务概述" class="headerlink" title="任务概述"></a>任务概述</h3><p>多分类问题，一共十二类，提供的数据是已经提取好特征的数据：训练集包含7800条数据，每个类别各有780条；测试集也包含7800条数据。要求最终提交测试集7800条数据所属的类别，用三种方法试验。</p>
+<p>本文选用Python作为编程语言。</p>
+<h3 id="数据读入"><a href="#数据读入" class="headerlink" title="数据读入"></a>数据读入</h3><p>★ NumPy</p>
+<p>在NumPy中，使用loadtxt函数可以方便地读取CSV文件，自动切分字段，并将数据载入NumPy数组。loadtxt的功能是读入数据文件，这里的数据文件要求每一行数据的格式相同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.loadtxt(fname, dtype=&lt;type <span class="string">'float'</span>&gt;, comments=<span class="string">'#'</span>, delimiter=<span class="keyword">None</span>, converters=<span class="keyword">None</span>, skiprows=<span class="number">0</span>, usecols=<span class="keyword">None</span>, unpack=<span class="keyword">False</span>, ndmin=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>参数说明(<a href="https://het.as.utexas.edu/HET/Software/Numpy/reference/generated/numpy.loadtxt.html" target="_blank" rel="noopener">官方说明链接</a>)：</p>
+<ul>
+<li>fname：读取文件的文件名。如C:/Dataset/iris.txt。</li>
+<li>dtype：数据类型。如float，str等。</li>
+<li>delimiter：数据之间的分隔符。如使用逗号“,”。</li>
+<li>skiprows：跳过最开始的行数。如跳过表头则取1。</li>
+<li>usecols：选取数据的列。如取前4列，则usecols=(0,1,2,3)。如取第5列，则usecols=(4)。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># csv data: </span></span><br><span class="line"><span class="comment"># Math,Chinese,English,PE,Music</span></span><br><span class="line"><span class="comment"># 75,80,70,90,60</span></span><br><span class="line"><span class="comment"># 60,85,90,95,99</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">c,v = np.loadtxt(<span class="string">'learn.csv'</span>,delimiter=<span class="string">','</span>,skiprows=<span class="number">1</span>,usecols=(<span class="number">3</span>,<span class="number">4</span>),unpack=<span class="keyword">True</span>)</span><br><span class="line">print(c,v)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># [90. 95.] [60. 99.]</span></span><br></pre></td></tr></table></figure>
+<p>★ Pandas</p>
+<p>pandas为读取CSV文件提供了read_scv()函数。（<a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html" target="_blank" rel="noopener">英文说明链接</a>，<a href="https://blog.csdn.net/liuweiyuxiang/article/details/78471036" target="_blank" rel="noopener">中文解释链接</a>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path = os.getcwd()+<span class="string">'\learn.csv'</span></span><br><span class="line">data = pd.read_csv(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#打印数据</span></span><br><span class="line">print(data)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  Chinese  English  PE  Music</span></span><br><span class="line"><span class="comment"># 0   100       80       70  90     60</span></span><br><span class="line"><span class="comment"># 1    60       85       90  95     99</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#数据统计</span></span><br><span class="line">print(data.describe())</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#              Math    Chinese    English         PE      Music</span></span><br><span class="line"><span class="comment"># count    2.000000   2.000000   2.000000   2.000000   2.000000</span></span><br><span class="line"><span class="comment"># mean    80.000000  82.500000  80.000000  92.500000  79.500000</span></span><br><span class="line"><span class="comment"># std     28.284271   3.535534  14.142136   3.535534  27.577164</span></span><br><span class="line"><span class="comment"># min     60.000000  80.000000  70.000000  90.000000  60.000000</span></span><br><span class="line"><span class="comment"># 25%     70.000000  81.250000  75.000000  91.250000  69.750000</span></span><br><span class="line"><span class="comment"># 50%     80.000000  82.500000  80.000000  92.500000  79.500000</span></span><br><span class="line"><span class="comment"># 75%     90.000000  83.750000  85.000000  93.750000  89.250000</span></span><br><span class="line"><span class="comment"># max    100.000000  85.000000  90.000000  95.000000  99.000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取第1行</span></span><br><span class="line">print(ata.head(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  Chinese  English  PE  Music</span></span><br><span class="line"><span class="comment"># 0   100       80       70  90     60</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取第一行部分数据</span></span><br><span class="line">print(data.loc[[<span class="number">0</span>], [<span class="string">'Math'</span>,<span class="string">'PE'</span>]])</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  PE</span></span><br><span class="line"><span class="comment"># 0   100  90</span></span><br></pre></td></tr></table></figure>
+<p>★ 自带csv包</p>
+<p>使用reader函数，接收一个可迭代的对象（比如csv文件），能返回一个生成器，就可以从其中解析出csv的内容，以行为单位。（<a href="https://www.lfhacks.com/tech/python-read-specific-row-csv" target="_blank" rel="noopener">参考链接</a>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'learn.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    rows = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader]</span><br><span class="line">print(rows)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># [['Math', 'Chinese', 'English', 'PE', 'Music'], ['100', '80', '70', '90', '60'], ['60', '85', '90', '95', '99']]</span></span><br></pre></td></tr></table></figure>
+<p>★ 回到正题</p>
+<p>任务数据包括两个文件：train.csv与test.csv，都是7801*4098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。值得注意的是，test.csv中，数据虽然没有标签，但依然是4098维的。</p>
+<p>本文选择第三种方式读入数据，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    train_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'test.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    test_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列表转数组，字符串转浮点型</span></span><br><span class="line">train_data = np.array(train_data,dtype=np.float32) </span><br><span class="line">test_data = np.array(train_data,dtype=np.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment">#切片操作，提取所需数据，标签转整型</span></span><br><span class="line">X = train_data[:,<span class="number">1</span>:<span class="number">-1</span>]</span><br><span class="line">Y = train_data[:,<span class="number">-1</span>].astype(np.int32)</span><br><span class="line">T = test_data[:,<span class="number">1</span>:<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#验证维度</span></span><br><span class="line"><span class="keyword">print</span> (X.shape)</span><br><span class="line"><span class="keyword">print</span> (Y.shape)</span><br><span class="line"><span class="keyword">print</span> (T.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># (7800, 4096)</span></span><br><span class="line"><span class="comment"># (7800,)</span></span><br><span class="line"><span class="comment"># (7800, 4096)</span></span><br></pre></td></tr></table></figure>
+<h3 id="KNN"><a href="#KNN" class="headerlink" title="KNN"></a>KNN</h3><h3 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h3><h3 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="jrunning.cn/2019/01/01/summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -961,171 +1126,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/15/paper-comparing-sift-and/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Shuo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="保持动力">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/15/paper-comparing-sift-and/" itemprop="url">论文笔记 | 专利图像表示：SIFT vs SURF</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T11:09:00+08:00">
-                2018-12-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/paper/" itemprop="url" rel="index">
-                    <span itemprop="name">paper</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="比较SIFT与SURF在专利图像上的性能"><a href="#比较SIFT与SURF在专利图像上的性能" class="headerlink" title="比较SIFT与SURF在专利图像上的性能"></a><strong>比较SIFT与SURF在专利图像上的性能</strong></h2><blockquote>
-<p>Lindqvist C. <strong>Comparing SIFT and SURF: Performance on patent drawings</strong>[D]. 2017.</p>
-</blockquote>
-<p>这是来自瑞典乌普萨拉大学学生的一篇硕士论文，关于专利图像表示，比较SIFT与SURF。从SURF的介绍中，我们知道SURF与SIFT算法相似，SIFT算法比较稳定，检测特征点更多，但是复杂度较高，而SURF要运算简单，效率高，运算时间短一点。本文的作者想通过实验，在文档图像上进行验证。</p>
-<p><img src="http://static.zybuluo.com/jiangshuo1016/ch4w0ufumohgr9a8ro09m27n/image_1cunslriu1it71bq114j2a61s9k15.png" alt="image_1cunslriu1it71bq114j2a61s9k15.png-56.6kB"></p>
-<h3 id="★-摘要"><a href="#★-摘要" class="headerlink" title="★ 摘要"></a><strong>★ 摘要</strong></h3><p>近年来，有研究发现人们可以利用专利中的图像来组织大规模的专利，这对于减少浏览专利所花费的时间和工作量是极有帮助的。研究提出了一个系统，可以通过CBIR技术寻找和比较特定的图像。关于CBIR技术，有非常多可以使用的算法，而它们各有各的优势。这篇论文测试了两种关于专利图像表示的算法：<a href="https://blog.csdn.net/songzitea/article/details/13627823" target="_blank" rel="noopener">SIFT</a>和<a href="https://blog.csdn.net/songzitea/article/details/16986423" target="_blank" rel="noopener">SURF</a>。</p>
-<p>实验显示，当我们仅看前20个算法相关结果时，可以检索到3-4个实际相关的图像，当目标范围更大时，检索到的相关图像可能会更多。这意味着可能可以仅使用一个特定专利文档的图像来找到多个相关专利。</p>
-<h3 id="★-结论"><a href="#★-结论" class="headerlink" title="★ 结论"></a><strong>★ 结论</strong></h3><p>本文的工作首先是收集数据，其次是选择合适的系统，不仅要保证速度和准确率，而且最好有开源代码进行调整。最终，选择了SURF和SIFT。使用它们进行检索时，前20个相关的结果中有3-4个是实际相关的，查看这3-4个实际相关的图像归属，可以找到1-2个相关的专利文档。但是，是否可以推广到大规模的知识产权领域，有待进一步的验证。</p>
-<p>重复上述的过程，可以找到相似图像。然而花费的时间与找到的数量，相比于使用关键词检索再一一浏览，有何差异，这需要进一步的评估。</p>
-<p>SIFT和SURF都可以有效地处理这一问题，总体相差不大，见下表所示。如果考虑时间，SURF要优于SIFT。相反，如果不考虑时间，SIFT的准确率会更高一些。所以具体如何选择，需要根据不同的环境来考虑。</p>
-<p><img src="http://static.zybuluo.com/jiangshuo1016/oz7d28n2brunpoyaof4dk5ap/image_1cunsn25jvhqg1412hi7p0131j1l.png" alt="image_1cunsn25jvhqg1412hi7p0131j1l.png-168.3kB"></p>
-<h3 id="★-其他"><a href="#★-其他" class="headerlink" title="★ 其他"></a><strong>★ 其他</strong></h3><ul>
-<li>CBIR常用的图像数据库：<a href="https://sites.google.com/site/dctresearch/Home/content-based-image-retrieval" target="_blank" rel="noopener"><strong>The COREL Database</strong></a>，包含了10800张图像，80个类别。</li>
-<li>本文中使用了<a href="http://www.cs.ubc.ca/research/flann/uploads/FLANN/flann_manual-1.8.4.pdf" target="_blank" rel="noopener"><strong>FLANN库</strong></a>来匹配特征。FLANN库全称是Fast Library for Approximate Nearest Neighbors，它是目前最完整的（近似）最近邻开源库。不但实现了一系列查找算法，还包含了一种自动选取最快算法的机制。</li>
-<li>使用不同的数据集（系统）进行评估，举例：PatMedia，PATSEEK；本文中用了TREC的评估标准。</li>
-</ul>
-<h3 id="★-自己的收获"><a href="#★-自己的收获" class="headerlink" title="★ 自己的收获"></a><strong>★ 自己的收获</strong></h3><ol>
-<li>对SIFT和SURF的比较有了感性的认识，再文档图像的应用中，总体差别不大。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1175,7 +1180,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1186,7 +1191,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -1197,7 +1202,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
