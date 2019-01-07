@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="任务概述多分类问题，一共十二类，提供的数据是已经提取好特征的数据，要求最终提交测试集所属的类别，用三种方法试验。本文选用Python作为编程语言。 数据集任务数据集包括两个文件：train.csv与test.csv。train是78014098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是156014097维，少了最后一列标签列。 csv数据读入★ NumPy 在Nu">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实践 | 数据多分类（一）">
+<meta property="og:url" content="jrunning.cn/2019/01/05/esl-final-project-1/index.html">
+<meta property="og:site_name" content="保持动力">
+<meta property="og:description" content="任务概述多分类问题，一共十二类，提供的数据是已经提取好特征的数据，要求最终提交测试集所属的类别，用三种方法试验。本文选用Python作为编程语言。 数据集任务数据集包括两个文件：train.csv与test.csv。train是78014098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是156014097维，少了最后一列标签列。 csv数据读入★ NumPy 在Nu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://static.zybuluo.com/jiangshuo1016/phu37ay9n7txnb04ljnyphjg/%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1.png">
+<meta property="og:updated_time" content="2019-01-07T08:46:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实践 | 数据多分类（一）">
+<meta name="twitter:description" content="任务概述多分类问题，一共十二类，提供的数据是已经提取好特征的数据，要求最终提交测试集所属的类别，用三种方法试验。本文选用Python作为编程语言。 数据集任务数据集包括两个文件：train.csv与test.csv。train是78014098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是156014097维，少了最后一列标签列。 csv数据读入★ NumPy 在Nu">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangshuo1016/phu37ay9n7txnb04ljnyphjg/%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="jrunning.cn/2019/01/05/esl-final-project-1/"/>
+
+
+
+
+
+  <title>机器学习实践 | 数据多分类（一） | 保持动力</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">保持动力</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">寻找稳固的自我</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-study">
+          <a href="/study/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            论文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-nav">
+          <a href="/nav/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-map"></i> <br />
+            
+            导航
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2019/01/05/esl-final-project-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实践 | 数据多分类（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-05T11:00:00+08:00">
+                2019-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://static.zybuluo.com/jiangshuo1016/phu37ay9n7txnb04ljnyphjg/%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1.png" alt="多分类任务.png-32.8kB"></p>
+<h3 id="任务概述"><a href="#任务概述" class="headerlink" title="任务概述"></a>任务概述</h3><p>多分类问题，一共十二类，提供的数据是已经提取好特征的数据，要求最终提交测试集所属的类别，用三种方法试验。本文选用Python作为编程语言。</p>
+<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>任务数据集包括两个文件：train.csv与test.csv。train是7801<em>4098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是15601</em>4097维，少了最后一列标签列。</p>
+<h3 id="csv数据读入"><a href="#csv数据读入" class="headerlink" title="csv数据读入"></a>csv数据读入</h3><p>★ NumPy</p>
+<p>在NumPy中，使用loadtxt函数可以方便地读取CSV文件，自动切分字段，并将数据载入NumPy数组。loadtxt的功能是读入数据文件，这里的数据文件要求每一行数据的格式相同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.loadtxt(fname, dtype=&lt;type <span class="string">'float'</span>&gt;, comments=<span class="string">'#'</span>, delimiter=<span class="keyword">None</span>, converters=<span class="keyword">None</span>, skiprows=<span class="number">0</span>, usecols=<span class="keyword">None</span>, unpack=<span class="keyword">False</span>, ndmin=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>参数说明(<a href="https://het.as.utexas.edu/HET/Software/Numpy/reference/generated/numpy.loadtxt.html" target="_blank" rel="noopener">官方说明链接</a>)：</p>
+<ul>
+<li>fname：读取文件的文件名。如C:/Dataset/iris.txt。</li>
+<li>dtype：数据类型。如float，str等。</li>
+<li>delimiter：数据之间的分隔符。如使用逗号“,”。</li>
+<li>skiprows：跳过最开始的行数。如跳过表头则取1。</li>
+<li>usecols：选取数据的列。如取前4列，则usecols=(0,1,2,3)。如取第5列，则usecols=(4)。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># csv data: </span></span><br><span class="line"><span class="comment"># Math,Chinese,English,PE,Music</span></span><br><span class="line"><span class="comment"># 75,80,70,90,60</span></span><br><span class="line"><span class="comment"># 60,85,90,95,99</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">c,v = np.loadtxt(<span class="string">'learn.csv'</span>,delimiter=<span class="string">','</span>,skiprows=<span class="number">1</span>,usecols=(<span class="number">3</span>,<span class="number">4</span>),unpack=<span class="keyword">True</span>)</span><br><span class="line">print(c,v)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># [90. 95.] [60. 99.]</span></span><br></pre></td></tr></table></figure>
+<p>★ Pandas</p>
+<p>pandas为读取CSV文件提供了read_scv()函数。（<a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html" target="_blank" rel="noopener">英文说明链接</a>，<a href="https://blog.csdn.net/liuweiyuxiang/article/details/78471036" target="_blank" rel="noopener">中文解释链接</a>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path = os.getcwd()+<span class="string">'\learn.csv'</span></span><br><span class="line">data = pd.read_csv(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#打印数据</span></span><br><span class="line">print(data)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  Chinese  English  PE  Music</span></span><br><span class="line"><span class="comment"># 0   100       80       70  90     60</span></span><br><span class="line"><span class="comment"># 1    60       85       90  95     99</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#数据统计</span></span><br><span class="line">print(data.describe())</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#              Math    Chinese    English         PE      Music</span></span><br><span class="line"><span class="comment"># count    2.000000   2.000000   2.000000   2.000000   2.000000</span></span><br><span class="line"><span class="comment"># mean    80.000000  82.500000  80.000000  92.500000  79.500000</span></span><br><span class="line"><span class="comment"># std     28.284271   3.535534  14.142136   3.535534  27.577164</span></span><br><span class="line"><span class="comment"># min     60.000000  80.000000  70.000000  90.000000  60.000000</span></span><br><span class="line"><span class="comment"># 25%     70.000000  81.250000  75.000000  91.250000  69.750000</span></span><br><span class="line"><span class="comment"># 50%     80.000000  82.500000  80.000000  92.500000  79.500000</span></span><br><span class="line"><span class="comment"># 75%     90.000000  83.750000  85.000000  93.750000  89.250000</span></span><br><span class="line"><span class="comment"># max    100.000000  85.000000  90.000000  95.000000  99.000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取第1行</span></span><br><span class="line">print(ata.head(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  Chinese  English  PE  Music</span></span><br><span class="line"><span class="comment"># 0   100       80       70  90     60</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#读取第一行部分数据</span></span><br><span class="line">print(data.loc[[<span class="number">0</span>], [<span class="string">'Math'</span>,<span class="string">'PE'</span>]])</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment">#    Math  PE</span></span><br><span class="line"><span class="comment"># 0   100  90</span></span><br></pre></td></tr></table></figure>
+<p>★ 自带csv包</p>
+<p>使用reader函数，接收一个可迭代的对象（比如csv文件），能返回一个生成器，就可以从其中解析出csv的内容，以行为单位。（<a href="https://www.lfhacks.com/tech/python-read-specific-row-csv" target="_blank" rel="noopener">参考链接</a>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'learn.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    rows = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader]</span><br><span class="line">print(rows)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># [['Math', 'Chinese', 'English', 'PE', 'Music'], ['100', '80', '70', '90', '60'], ['60', '85', '90', '95', '99']]</span></span><br></pre></td></tr></table></figure>
+<h3 id="数据读入程序"><a href="#数据读入程序" class="headerlink" title="数据读入程序"></a>数据读入程序</h3><p>本文选择第三种方式读入数据，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    train_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'test.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    test_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列表转数组，字符串转浮点型，训练数据打乱</span></span><br><span class="line">train_data = np.array(train_data,dtype=np.float32) </span><br><span class="line">test_data = np.array(train_data,dtype=np.float32)</span><br><span class="line">train_data = shuffle(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#切片操作，提取所需数据，标签转整型</span></span><br><span class="line">X = train_data[:,<span class="number">1</span>:<span class="number">-1</span>]</span><br><span class="line">Y = train_data[:,<span class="number">-1</span>].astype(np.int32)</span><br><span class="line">T = test_data[:,<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment">#验证维度</span></span><br><span class="line"><span class="keyword">print</span> (X.shape)</span><br><span class="line"><span class="keyword">print</span> (Y.shape)</span><br><span class="line"><span class="keyword">print</span> (T.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># (7800, 4096)</span></span><br><span class="line"><span class="comment"># (7800,)</span></span><br><span class="line"><span class="comment"># (15600, 4096)</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/01/summary/" rel="next" title="像我这样的人">
+                <i class="fa fa-chevron-left"></i> 像我这样的人
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Jiang Shuo" />
+            
+              <p class="site-author-name" itemprop="name">Jiang Shuo</p>
+              <p class="site-description motion-element" itemprop="description">SJTU | PhD Candidate</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jsmech@sjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/shuo0571" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.linkedin.com/in/%E6%9C%94-%E5%A7%9C-743155159/" target="_blank" title="Linkedin">
+                      
+                        <i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="/uploads/wechat-QR2.jpg" target="_blank" title="个人微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>个人微信</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务概述"><span class="nav-number">1.</span> <span class="nav-text">任务概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">2.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv数据读入"><span class="nav-number">3.</span> <span class="nav-text">csv数据读入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据读入程序"><span class="nav-number">4.</span> <span class="nav-text">数据读入程序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Shuo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+
+    <br>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+	<span id="busuanzi_container_page_pv">本文总阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
