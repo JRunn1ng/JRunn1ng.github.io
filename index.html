@@ -253,6 +253,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="jrunning.cn/2019/01/12/esl-final-project-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiang Shuo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="保持动力">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/12/esl-final-project-2/" itemprop="url">机器学习实践 | 数据多分类（二）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-12T11:00:00+08:00">
+                2019-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://static.zybuluo.com/jiangshuo1016/xaanxnjrndhuhzjehmxriy45/%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1.png" alt="多分类任务.png-28.9kB"></p>
+<p>上一篇文章中，讲到了数据集及数据的载入：<a href="http://jacobrun.com/2019/01/05/esl-final-project-1/" target="_blank" rel="noopener">数据多分类（一）</a>。</p>
+<h3 id="Sklearn"><a href="#Sklearn" class="headerlink" title="Sklearn"></a><strong>Sklearn</strong></h3><p><a href="https://scikit-learn.org/" target="_blank" rel="noopener">Scikit learn</a> 也简称 Sklearn, 是机器学习领域当中最知名的 python 模块之一。Sklearn 包含了很多种机器学习的方式：</p>
+<ul>
+<li>Classification 分类</li>
+<li>Regression 回归</li>
+<li>Clustering 非监督分类</li>
+<li>Dimensionality reduction 数据降维</li>
+<li>Model Selection 模型选择</li>
+<li>Preprocessing 数据预处理</li>
+</ul>
+<p>Sklearn官网提供了一个流程图，蓝色圆圈内是判断条件，绿色方框内是可以选择的算法。此外，Sklearn中还包括许多优秀的数据集，比如<a href="https://blog.csdn.net/Asun0204/article/details/75607948" target="_blank" rel="noopener">digits</a>。本文将使用Sklearn中的逻辑斯蒂回归、支持向量机以及神经网络来训练数据，并对Test中的数据进行标签预测。<br><img src="http://static.zybuluo.com/jiangshuo1016/83obizhurrmzj1715qpami7u/image_1d1131j38po38n7hcp1hqn1ink9.png" alt="image_1d1131j38po38n7hcp1hqn1ink9.png-409.1kB"></p>
+<h3 id="多分类算法"><a href="#多分类算法" class="headerlink" title="多分类算法"></a><strong>多分类算法</strong></h3><p>多分类算法主要分为以二分类算法为基础的多分类算法，以及二分类算法以外的多分类算法。第一类算法中，包括逻辑斯蒂回归等，又可以细分为一对一（ovo，每次区分两类，多次实现）以及一对多（ovr，每次区分是否属于该类，多次实现）。第二类算法中，包括支持向量机、神经网络等。在此不讨论算法的具体细节，讲一讲各类算法在Sklearn中的实现，主要是调用fit函数以及predict函数。</p>
+<p>★ 数据切分</p>
+<p>为了验证模型的效果，往往将训练集按照一定的比例切分为训练集和测试集，本文选择7:3。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split <span class="keyword">as</span> ts</span><br><span class="line"></span><br><span class="line">X_train,X_test,Y_train,Y_test = ts(X,Y,test_size=<span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+<p>★ <a href="https://en.wikipedia.org/wiki/Logistic_regression" target="_blank" rel="noopener">逻辑斯蒂回归</a></p>
+<p>参数设置参考：<a href="https://blog.csdn.net/qq_38683692/article/details/82533460" target="_blank" rel="noopener">链接</a>。</p>
+<ul>
+<li><code>solver</code>：优化算法。</li>
+<li><code>multi_class</code>：多分类策略，ovo或ovr。</li>
+<li><code>penalty</code>：正则化类型，l1或l2。</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"></span><br><span class="line">model1 = LogisticRegression(solver=<span class="string">'lbfgs'</span>, multi_class=<span class="string">'ovr'</span>, penalty=<span class="string">'l2'</span>, max_iter=<span class="number">1000</span>)</span><br><span class="line">model1.fit(X_train,Y_train)</span><br><span class="line">predict1 = model1.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p>★ <a href="https://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="noopener">支持向量机</a></p>
+<p>参数设置参考：<a href="https://www.jianshu.com/p/a9f9954355b3" target="_blank" rel="noopener">链接</a>。</p>
+<ul>
+<li><code>C</code>：惩罚参数。</li>
+<li><code>kernel</code>：核函数。</li>
+<li><code>gamma</code>： ‘rbf’,‘poly’和‘sigmoid’的核函数参数，越大则支持向量越少。</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"></span><br><span class="line">model2 = svm.SVC(kernel=<span class="string">'rbf'</span>, gamma=<span class="string">'scale'</span>)</span><br><span class="line">model2.fit(X_train,Y_train)</span><br><span class="line">predict2 = model2.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p>★ <a href="https://en.wikipedia.org/wiki/Neural_Network" target="_blank" rel="noopener">神经网络</a></p>
+<p>这里指的神经网络其实是多层感知机，参数设置参考：<a href="https://blog.csdn.net/weixin_38278334/article/details/83023958" target="_blank" rel="noopener">链接</a>。</p>
+<ul>
+<li><code>hidden_​​layer_sizes</code>：网络层数和节点数。</li>
+<li><code>activation</code>：激活函数。</li>
+<li><code>learning_rate</code>：优化方法为’sgd’时，学习率。</li>
+</ul>
+<p>关于神经网络中隐含层节点数设置，有三个<a href="https://blog.csdn.net/u013421629/article/details/78329191" target="_blank" rel="noopener">经验方法</a>（本文选择方法三）：</p>
+<script type="math/tex; mode=display">s=\sqrt{0.43mn+0.12n^{2}+2.54m+0.77n+0.35}+0.51</script><p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model3 = sk_nn.MLPClassifier(hidden_layer_sizes=(<span class="number">200</span>, ), activation=<span class="string">'logistic'</span>,solver=<span class="string">'sgd'</span>,alpha=<span class="number">0.0001</span>,learning_rate=<span class="string">'adaptive'</span>,learning_rate_init=<span class="number">0.001</span>,max_iter=<span class="number">10000</span>)</span><br><span class="line">model3.fit(X_train,Y_train)</span><br><span class="line">predict3 = model3.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="算法评价"><a href="#算法评价" class="headerlink" title="算法评价"></a><strong>算法评价</strong></h3><p>本文采用了正确率（accuracy），准确度（precision）与敏感度（sensitivity）以及混淆矩阵（Confusion Matrix）进行评估。</p>
+<script type="math/tex; mode=display">accuracy=\frac{TP+TN}{TP+TN+FP+FN}</script><script type="math/tex; mode=display">precision=\frac{TP}{TP+FP}</script><script type="math/tex; mode=display">sensitivity=\frac{TP}{TP+FN}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eva</span><span class="params">(Y_test, predict)</span>:</span></span><br><span class="line">    accuracy = metrics.accuracy_score(Y_test, predict)</span><br><span class="line">    precision = metrics.precision_score(Y_test, predict, average=<span class="string">'macro'</span>)</span><br><span class="line">    recall = metrics.recall_score(Y_test, predict, average=<span class="string">'macro'</span>)</span><br><span class="line">    print(<span class="string">'accuracy: %.2f%%, precision: %.2f%%, recall: %.2f%%'</span> % (<span class="number">100</span> * accuracy, <span class="number">100</span> * precision, <span class="number">100</span> * recall))</span><br><span class="line">    cm=metrics.confusion_matrix(Y_test, predict)</span><br><span class="line">    plt.matshow(cm,cmap=plt.cm.Blues)</span><br><span class="line">    plt.colorbar()</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(len(cm)):</span><br><span class="line">        <span class="keyword">for</span> y <span class="keyword">in</span> range(len(cm)):</span><br><span class="line">            plt.annotate(cm[x,y],xy=(x,y),horizontalalignment=<span class="string">'center'</span>,verticalalignment=<span class="string">'center'</span>)</span><br><span class="line">    plt.ylabel(<span class="string">'True category'</span>)</span><br><span class="line">    plt.xlabel(<span class="string">'Predicted category'</span>)</span><br><span class="line"></span><br><span class="line">eva(Y_test, predict1)</span><br><span class="line">eva(Y_test, predict2)</span><br><span class="line">eva(Y_test, predict3)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]</span></span><br><span class="line"><span class="comment"># accuracy: 98.80%, precision: 98.80%, recall: 98.81%</span></span><br><span class="line"><span class="comment"># accuracy: 98.68%, precision: 98.66%, recall: 98.69%</span></span><br><span class="line"><span class="comment"># accuracy: 98.76%, precision: 98.76%, recall: 98.77%</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://static.zybuluo.com/jiangshuo1016/or1qdiwpnosccro1gakcs1km/cm_1.png" alt="cm_1.png-720.3kB"></p>
+<h3 id="预测及保存"><a href="#预测及保存" class="headerlink" title="预测及保存"></a><strong>预测及保存</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">saveResult</span><span class="params">(name, model, T)</span>:</span></span><br><span class="line">    real_predict = model.predict(T)</span><br><span class="line">    dataframe = pd.DataFrame(&#123;<span class="string">'categories'</span>:real_predict&#125;)</span><br><span class="line">    dataframe.to_csv(name + <span class="string">"_result.csv"</span>,sep=<span class="string">','</span>)</span><br><span class="line">    print(<span class="string">"Result saved successfully:"</span> + name + <span class="string">"_result.csv"</span>)</span><br><span class="line"></span><br><span class="line">saveResult(<span class="string">"LR"</span>, model1, T)</span><br><span class="line">saveResult(<span class="string">"SVM"</span>, model2, T)</span><br><span class="line">saveResult(<span class="string">"NN"</span>, model3, T)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]</span></span><br><span class="line"><span class="comment"># Result saved successfully:LR_result.csv</span></span><br><span class="line"><span class="comment"># Result saved successfully:SVM_result.csv</span></span><br><span class="line"><span class="comment"># Result saved successfully:NN_result.csv</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="jrunning.cn/2019/01/09/the-right-way/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -505,7 +694,7 @@
           
             <p><img src="http://static.zybuluo.com/jiangshuo1016/phu37ay9n7txnb04ljnyphjg/%E5%A4%9A%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1.png" alt="多分类任务.png-32.8kB"></p>
 <h3 id="任务概述"><a href="#任务概述" class="headerlink" title="任务概述"></a>任务概述</h3><p>多分类问题，一共十二类，提供的数据是已经提取好特征的数据，要求最终提交测试集所属的类别，用三种方法试验。本文选用Python作为编程语言。</p>
-<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>任务数据集包括两个文件：train.csv与test.csv。train是7801<em>4098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是15601</em>4097维，少了最后一列标签列。</p>
+<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>任务数据集包括两个文件：train.csv与test.csv。train是7801×4098维，第一行是表头，第一列是id，最后一列是标签，其余为特征数据。test是15601×4097维，少了最后一列标签列。</p>
 <h3 id="csv数据读入"><a href="#csv数据读入" class="headerlink" title="csv数据读入"></a>csv数据读入</h3><p>★ NumPy</p>
 <p>在NumPy中，使用loadtxt函数可以方便地读取CSV文件，自动切分字段，并将数据载入NumPy数组。loadtxt的功能是读入数据文件，这里的数据文件要求每一行数据的格式相同。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.loadtxt(fname, dtype=&lt;type <span class="string">'float'</span>&gt;, comments=<span class="string">'#'</span>, delimiter=<span class="keyword">None</span>, converters=<span class="keyword">None</span>, skiprows=<span class="number">0</span>, usecols=<span class="keyword">None</span>, unpack=<span class="keyword">False</span>, ndmin=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
@@ -525,7 +714,7 @@
 <p>使用reader函数，接收一个可迭代的对象（比如csv文件），能返回一个生成器，就可以从其中解析出csv的内容，以行为单位。（<a href="https://www.lfhacks.com/tech/python-read-specific-row-csv" target="_blank" rel="noopener">参考链接</a>）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'learn.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    rows = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader]</span><br><span class="line">print(rows)</span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># [['Math', 'Chinese', 'English', 'PE', 'Music'], ['100', '80', '70', '90', '60'], ['60', '85', '90', '95', '99']]</span></span><br></pre></td></tr></table></figure>
 <h3 id="数据读入程序"><a href="#数据读入程序" class="headerlink" title="数据读入程序"></a>数据读入程序</h3><p>本文选择第三种方式读入数据，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    train_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'test.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    test_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列表转数组，字符串转浮点型，训练数据打乱</span></span><br><span class="line">train_data = np.array(train_data,dtype=np.float32) </span><br><span class="line">test_data = np.array(train_data,dtype=np.float32)</span><br><span class="line">train_data = shuffle(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#切片操作，提取所需数据，标签转整型</span></span><br><span class="line">X = train_data[:,<span class="number">1</span>:<span class="number">-1</span>]</span><br><span class="line">Y = train_data[:,<span class="number">-1</span>].astype(np.int32)</span><br><span class="line">T = test_data[:,<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment">#验证维度</span></span><br><span class="line"><span class="keyword">print</span> (X.shape)</span><br><span class="line"><span class="keyword">print</span> (Y.shape)</span><br><span class="line"><span class="keyword">print</span> (T.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># (7800, 4096)</span></span><br><span class="line"><span class="comment"># (7800,)</span></span><br><span class="line"><span class="comment"># (15600, 4096)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.utils <span class="keyword">import</span> shuffle</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    train_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'test.csv'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    test_data = [row <span class="keyword">for</span> row <span class="keyword">in</span> reader][<span class="number">1</span>:] <span class="comment">#除去表头</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#列表转数组，字符串转浮点型</span></span><br><span class="line">train_data = np.array(train_data,dtype=np.float32) </span><br><span class="line">test_data = np.array(train_data,dtype=np.float32)</span><br><span class="line">train_data = shuffle(train_data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#切片操作，提取所需数据，标签转整型</span></span><br><span class="line">X = train_data[:,<span class="number">1</span>:<span class="number">-1</span>]</span><br><span class="line">Y = train_data[:,<span class="number">-1</span>].astype(np.int32)</span><br><span class="line">T = test_data[:,<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment">#验证维度</span></span><br><span class="line"><span class="keyword">print</span> (X.shape)</span><br><span class="line"><span class="keyword">print</span> (Y.shape)</span><br><span class="line"><span class="keyword">print</span> (T.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [Output]:</span></span><br><span class="line"><span class="comment"># (7800, 4096)</span></span><br><span class="line"><span class="comment"># (7800,)</span></span><br><span class="line"><span class="comment"># (15600, 4096)</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -966,160 +1155,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="jrunning.cn/2018/12/18/get-up-early/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiang Shuo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="保持动力">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/18/get-up-early/" itemprop="url">养成早起小习惯</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-18T19:10:00+08:00">
-                2018-12-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://static.zybuluo.com/jiangshuo1016/k65ioxxgqgzs02iwmbv2p843/sunrise-717816_1920.jpg" alt="sunrise-717816_1920.jpg-440.7kB"></p>
-<p>在人生漫长的旅途中，我走到了博士求学这个特殊的阶段。博士这个群体，尤其是国内博士，总有人会把它与压力大、容易抑郁相挂钩。不知道这种感觉算不算焦虑，但是从暑假以来有好几次从内心觉得自己没有明确的目标，没有深远的规划，甚至没有健全的人格 。我到底为了什么而活？一次次叩问心灵却找不到答案，心里却是对自己更大的失望。我总是要求和希望自己能在各方面都表现得很好，“很好”的标准和定义却又一直在变，那么何时是个尽头呢，此时此刻，我在身边的环境中看不到明确的路径。</p>
-<p>我不是一个爱抱怨的人，严格来说，我应该属于是行动派，我可以把明确的计划完成得很好，得到一个好的结果。在这博士伊始，我是彻彻底底的在挣扎着，是一种心态上的挣扎，心理上的不健康。记得在研一的时候，我跟照宇和云皓说过：“我在内心深处是很不认可自己的。”也许这与我以往的经历有关，并且到现在也没有根除，无论这期间获得过多少的赞誉。这种不认可的感觉，在最近被进一步地放大，有时甚至会影响到生活。</p>
-<p>其实我很幸运，我不需要去应对很多其他博士同学要面临的家庭状况、恋爱婚姻、买房买车等压力。身边的人也许不解我的压力在哪，但是我还是真真切切地焦虑了。我认为这是由于我的欲望在膨胀，想要的越来越多，觉得其它人对我的期望越来越高。内心对自己的评估总是匹配不了我的欲望，以及自己幻想出来的他人对我的期望。而后者，严重时甚至会影响我的社交习惯。与此同时，我又会后悔于自己的一些选择，曾经的一些做法，这让内心的矛盾与冲突愈发激烈。这学期看过两次心理咨询，第二次时，咨询师对我说：<strong>你总跟优秀的人去比，也许你心里默认的那些竞争对象，他们的境遇，都是你幻想出来的呢？</strong>我有点认同，好像我总是很排斥去跟比我优秀一些的人去交流，而那些优秀很多或者是不在一个圈子里的优秀的人，我又没有这种感觉。这种感觉，也许也与内心对自己的不认可相关吧。</p>
-<p>活在当下，正念冥想，专注于要做的事。是资料告诉我的关于改善这种困境的方法。小飞虫奇迹分享说：活在当下，是与其它过去的事情切掉了联系。不断地把过去的自己，别人期望中的自己，以及真实的自己相比较，这种比较也是一种联系。我觉得，让我痛苦的地方就在于此。本来给这篇记录起的标题是“从一些小习惯改变”，改变这个词有点刺眼，太强迫了，我不想再强迫自己了。让我记录这个痛苦的感觉，但是我认为我不需要去改变什么，我应该接纳自己。 </p>
-<p>养成早起小习惯，是希望自己能减少让自己焦虑的机会。近来机缘巧合看到许多其它人的分享早起的感觉：早起可以让你的早上延长很多，从而更从容地应对下午与晚上。因此，我希望早起可以成为我的第一个习惯，当作是一种尝试，像当年迈开腿开始跑步一样，也别赋予它太多的意义。为了养成这个小习惯，固定一些「Morning Routing」：</p>
-<ul>
-<li>早上6点30前起床穿好衣服</li>
-<li>刷牙洗脸时自拍一张发给母亲</li>
-<li>喝一杯热水</li>
-<li>出门前对着镜子微笑一下</li>
-</ul>
-<p>希望这会让近期的心理有所改善，让我在这<strong>人生难得清闲的时光</strong>里，找到自己舒服的状态。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1174,7 +1209,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
